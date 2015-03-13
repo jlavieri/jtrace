@@ -21,11 +21,13 @@ class Renderer
 
     private final Scene scene;
     private final RenderSettings renderSettings;
-    
-    //Extract these from renderSettings for sugar.
+
+    // Extract these from renderSettings for sugar.
     private final int width, height;
 
+    // Statistics
     private int pixelCount, rayCount, shadowRayCount;
+    private long time;
 
     public Renderer(Scene scene, RenderSettings renderSettings)
     {
@@ -41,9 +43,8 @@ class Renderer
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++) {
                 pixelCount++;
-                image[y][x] = trace(scene.c.getRay(x, y), 0);
+                image[y][x] = trace(scene.camera.getRay(x, y), 0);
             }
-        printStatistics();
         return image;
     }
 
@@ -51,51 +52,54 @@ class Renderer
     {
         rayCount++;
         double dis = MAX_DIS;
-        Geom obj = null;
-        for (Geom r : scene.objects) {
-            double d = r.intersect(ray);
+        Geom geom = null;
+        for (Geom g : scene.geoms) {
+            double d = g.primitive.intersect(ray);
             if (d < 0d)
                 continue;
             if (d < dis) {
                 dis = d;
-                obj = r;
+                geom = g;
             }
         }
-        if (obj != null) {
+        if (geom != null) {
             if (QUICK_COLOUR)
-                return obj.tex.pig.clr;
+                return geom.material.texture.pigment.color;
             Vec3 p = ray.pos(dis);
             Color c = new Color();
-            for (Light l : scene.lights) {
+            for (Light light : scene.lights) {
                 double its = 1d;
-                double disl = l.pos.dis(p);
-                loi: for (Geom r : scene.objects) {
-                    double [] disa = r.intersecta(new Ray(l.pos, p
-                            .direction(l.pos)));
+                double disl = light.position.dis(p);
+                loi: for (Geom g : scene.geoms) {
+                    double [] disa = g.primitive.intersecta(new Ray(
+                            light.position, p.direction(light.position)));
                     shadowRayCount++;
                     // MAYBE-DO Validate intersections.
                     for (int i = 0; i < disa.length; i += 2)
                         if (disa[i] < disl)
                             if (disa[i + 1] < disl
                                     || Maths.equ(disa[i + 1], disl)) {
-                                its *= r.tex.pig.clr.t;
+                                its *= g.material.texture.pigment.color.t;
                                 if (its == 0d)
-                                    break loi; // obj is in full shadow.
-                            } // else obj is inside r!
+                                    break loi; // geom is in full shadow.
+                            } // else geom is inside g!
                 }
-                c.sadd(scene.al).sadd(obj.tex.pig.clr.mul(its));
+                c.sadd(scene.globalSettings.ambientLight)
+                        .sadd(geom.material.texture.pigment.color.mul(its));
             }
             return c;
         }
-        return scene.bg;
+        return scene.globalSettings.background;
     }
 
     void renderToFile()
     {
+        long start = System.currentTimeMillis();
+
         Color [][] image = render();
-        
+
         BufferedImage bi = new BufferedImage(width, height,
-                                             BufferedImage.TYPE_INT_RGB);
+                BufferedImage.TYPE_INT_RGB);
         for (int i = 0; i < height; i++)
             for (int j = 0; j < width; j++)
                 bi.setRGB(j, i, image[i][j].toInt());
@@ -104,15 +108,20 @@ class Renderer
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        long stop = System.currentTimeMillis();
+        time = stop - start;
+        printStatistics();
     }
 
     private void printStatistics()
     {
         PrintStream o = System.out;
         o.println("Render Statistics:");
-        o.println("\tPixels: " + pixelCount);
-        o.println("\tRays: " + rayCount);
-        o.println("\tShadow Rays: " + shadowRayCount);
+        o.printf("\tTime: %d ms\n", time);
+        o.printf("\tPixels: %d\n", pixelCount);
+        o.printf("\tRays: %d\n", rayCount);
+        o.printf("\tShadow Rays: %d\n", shadowRayCount);
     }
 
     void debug(Object o)

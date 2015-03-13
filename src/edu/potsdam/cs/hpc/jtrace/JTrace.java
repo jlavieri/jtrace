@@ -16,15 +16,8 @@ public class JTrace
     {
         Scene testScene = buildTestScene();
         RenderSettings renderSettings = new RenderSettingsBuilder(args).build();
-        
-        long start = System.currentTimeMillis();
-        System.out.println("Tracing.");
-        
+        System.out.println("Tracing...");
         new Renderer(testScene, renderSettings).renderToFile();
-        
-        long stop = System.currentTimeMillis();
-        long delta = stop - start;
-        System.out.printf("Trace took %d ms.", delta);
     }
 
     private static Scene buildTestScene()
@@ -32,7 +25,7 @@ public class JTrace
         SceneBuilder sb = new SceneBuilder();
         sb
         .globalSettings()
-            .backGround(Color.BLACK)
+            .backGround(Color.CHARTREUSE)
             .ambientLight(Color.GREY10)
         .end()
         .camera()

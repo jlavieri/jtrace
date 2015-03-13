@@ -11,14 +11,14 @@ public class Scene
     final GlobalSettings globalSettings;
     final Camera camera;
     final Light[] lights;
-    final Geom[] objects;
+    final Geom[] geoms;
     
     public Scene (GlobalSettings globalSettings, Camera camera, Light[] lights,
-            Geom[] objects)
+            Geom[] geoms)
     {
         this.globalSettings = globalSettings;
         this.camera = camera;
         this.lights = lights;
-        this.objects = objects;
+        this.geoms = geoms;
     }
 }

@@ -7,12 +7,12 @@ package edu.potsdam.cs.hpc.jtrace;
  */
 public class GlobalSettings
 {
-    final Color backGround;
+    final Color background;
     final Color ambientLight;
     
-    public GlobalSettings (Color backGround, Color ambientLight)
+    public GlobalSettings (Color background, Color ambientLight)
     {
-        this.backGround = backGround;
+        this.background = background;
         this.ambientLight = ambientLight;
     }
 }
