@@ -46,7 +46,13 @@ public class CameraBuilder
         lookAt = new Vec3(x, y, z);
         return this;
     }
-
+    
+    public CameraBuilder lookAt(Vec3 lookAt)
+    {
+        this.lookAt = lookAt;
+        return this;
+    }
+    
     public SceneBuilder end()
     {
         Camera c;
@@ -58,4 +64,6 @@ public class CameraBuilder
         sb.camera = c;
         return sb;
     }
+
+    
 }

@@ -24,7 +24,13 @@ public class SphereBuilder
         position = new Vec3(x, y, z);
         return this;
     }
-
+    
+    public SphereBuilder position(Vec3 position)
+    {
+        this.position = position;
+        return this;
+    }
+    
     public SphereBuilder radius(double r)
     {
         radius = r;
@@ -36,5 +42,7 @@ public class SphereBuilder
         gb.primitive = new Sphere(position, radius);
         return gb;
     }
+
+    
 
 }

@@ -17,7 +17,7 @@ class Renderer
     private static final int MAX_DEPTH = 5;
     private static final double ADC_BAILOUT = 1D / 255D;
     private static final double MAX_DIS = 1E10D;
-    private static final boolean QUICK_COLOUR = false;
+    private static final boolean QUICK_COLOUR = true;
 
     private final Scene scene;
     private final RenderSettings renderSettings;
@@ -35,6 +35,7 @@ class Renderer
         this.renderSettings = renderSettings;
         width = renderSettings.dimension.width;
         height = renderSettings.dimension.height;
+        scene.camera.initialize(renderSettings.dimension);
     }
 
     private Color [][] render()
@@ -52,7 +53,11 @@ class Renderer
     {
         rayCount++;
         double dis = MAX_DIS;
+        
+        // The geom that the ray will hit or null if it hit no geom.
         Geom geom = null;
+        
+        // Find the closest geom in the scene that this ray hits.
         for (Geom g : scene.geoms) {
             double d = g.primitive.intersect(ray);
             if (d < 0d)
@@ -62,17 +67,19 @@ class Renderer
                 geom = g;
             }
         }
+        
+        // The ray hit something!
         if (geom != null) {
             if (QUICK_COLOUR)
                 return geom.material.texture.pigment.color;
-            Vec3 p = ray.pos(dis);
+            Vec3 p = ray.position(dis);
             Color c = new Color();
             for (Light light : scene.lights) {
                 double its = 1d;
                 double disl = light.position.dis(p);
                 loi: for (Geom g : scene.geoms) {
                     double [] disa = g.primitive.intersecta(new Ray(
-                            light.position, p.direction(light.position)));
+                            light.position, p.directionTo(light.position)));
                     shadowRayCount++;
                     // MAYBE-DO Validate intersections.
                     for (int i = 0; i < disa.length; i += 2)
@@ -89,6 +96,8 @@ class Renderer
             }
             return c;
         }
+        
+        // The ray hit nothing.
         return scene.globalSettings.background;
     }
 

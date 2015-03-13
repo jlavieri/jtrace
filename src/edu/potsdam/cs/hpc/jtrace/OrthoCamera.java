@@ -26,7 +26,7 @@ class OrthoCamera implements Camera
         this.h = h;
         sw = d.width;
         sh = d.height;
-        left = dir.crs(up);
+        left = dir.cross(up);
     }
 
     private static double planarPos(double s, double d, double sd)

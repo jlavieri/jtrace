@@ -15,4 +15,10 @@ public class Geom
         this.primitive = primitive;
         this.material = material;
     }
+    
+    @Override
+    public String toString()
+    {
+        return String.format("Geom(%s, %s)", primitive, material);
+    }
 }

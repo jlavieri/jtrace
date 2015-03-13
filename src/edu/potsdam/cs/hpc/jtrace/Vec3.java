@@ -38,7 +38,7 @@ public class Vec3
         return new Vec3(x - v.x, y - v.y, z - v.z);
     }
 
-    Vec3 crs(Vec3 v)
+    Vec3 cross(Vec3 v)
     {
         return new Vec3(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
     }
@@ -50,12 +50,12 @@ public class Vec3
      * @return A unit vector pointing in the direction of the given vector from
      * this one.
      */
-    Vec3 direction(Vec3 v)
+    public Vec3 directionTo(Vec3 v)
     {
-        return this.sub(v).snorm();
+        return v.sub(this).snorm();
     }
 
-    Vec3 mul(double d)
+    public Vec3 mul(double d)
     {
         return new Vec3(d * x, d * y, d * z);
     }
@@ -102,6 +102,18 @@ public class Vec3
         return this.sdiv(Math.sqrt(this.dot(this)));
     }
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj instanceof Vec3) {
+            Vec3 o = (Vec3)obj;
+            return x == o.x && y == o.y && z == o.z;
+        }
+        return false;
+    }
+    
     @Override
     public String toString()
     {

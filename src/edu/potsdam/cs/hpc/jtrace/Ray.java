@@ -1,30 +1,35 @@
 package edu.potsdam.cs.hpc.jtrace;
 
-
-
 /**
- * @author  lavierijp
- * @version 2012-06-23
- * @since   2012-03-15
+ * @author lavierijp
+ * @version 2015-03-12
+ * @since 2012-03-15
  */
-class Ray
+public class Ray
 {
-  final Vec3 pos, dir;
+    public final Vec3 pos, dir;
 
-  Ray (Vec3 pos, Vec3 dir)
-  {
-    this.pos = pos;
-    this.dir = dir;
-  }
+    public Ray(Vec3 pos, Vec3 dir)
+    {
+        this.pos = pos;
+        this.dir = dir;
+    }
 
-  Vec3 pos (double t)
-  {
-    return pos.add(dir.mul(t));
-  }
+    /**
+     * Gets the point on this ray a given distance away from where it starts.
+     * 
+     * @param t
+     *            The scalar distance away from the start.
+     * @return A new position that is distance t in this ray's direction.
+     */
+    public Vec3 position(double t)
+    {
+        return pos.add(dir.mul(t));
+    }
 
-  @Override
-  public String toString ()
-  {
-    return pos + ", " + dir;
-  }
+    @Override
+    public String toString()
+    {
+        return String.format("Ray(%s, %s)", pos, dir);
+    }
 }

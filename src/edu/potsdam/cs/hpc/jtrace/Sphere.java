@@ -41,4 +41,10 @@ public class Sphere extends Primitive
         double [] ret = { b - sdsc, b + sdsc };
         return ret;
     }
+    
+    @Override
+    public String toString()
+    {
+        return String.format("Sphere(%s, %s)", position, radius);
+    }
 }
