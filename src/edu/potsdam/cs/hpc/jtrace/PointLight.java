@@ -1,17 +1,15 @@
 package edu.potsdam.cs.hpc.jtrace;
 
-
-
 /**
  * @author jlavieri
- * @version 2012-06-22
- * @since   2012-06-22
+ * @version 2015-03-12
+ * @since 2012-06-22
  */
-class PointLight
-  extends Light
+public class PointLight extends Light
 {
-  PointLight (Vec3 pos)
-  {
-    this.pos = pos;
-  }
+    public PointLight(Vec3 position, Color color)
+    {
+        this.position = position;
+        this.color = color;
+    }
 }

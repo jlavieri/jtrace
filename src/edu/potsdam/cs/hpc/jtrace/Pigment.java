@@ -1,6 +1,16 @@
 package edu.potsdam.cs.hpc.jtrace;
 
-class Pigment
+/**
+ * @author jlavieri
+ * @version 2015-03-12
+ * @since 2012-03-15
+ */
+public class Pigment
 {
-  Colour clr = new Colour();
+    final Color color;
+    
+    public Pigment(Color color)
+    {
+        this.color = color;
+    }
 }

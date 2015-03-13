@@ -2,11 +2,11 @@ package edu.potsdam.cs.hpc.jtrace;
 
 /**
  * @author jlavieri
- * @version 2012-06-22
- * @since   2012-06-22
+ * @version 2015-03-12
+ * @since 2012-06-22
  */
-abstract class Light
+public abstract class Light
 {
-  Vec3 pos;
-  Colour clr = new Colour(1d, 1d, 1d);
+    Vec3 position;
+    Color color;
 }

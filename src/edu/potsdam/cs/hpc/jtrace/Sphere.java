@@ -1,47 +1,44 @@
 package edu.potsdam.cs.hpc.jtrace;
 
-
-
 /**
- * @author  lavierijp
- * @version 2012-06-23
- * @since   2012-03-15
+ * @author lavierijp
+ * @version 2015-03-12
+ * @since 2012-03-15
  */
-class Sphere
-  extends Renderable
+public class Sphere extends Primitive
 {
-  private final Vec3 pos;
-  private final double rad;
+    private final Vec3 position;
+    private final double radius;
 
-  Sphere (Vec3 pos, double rad)
-  {
-    this.pos = pos;
-    this.rad = rad;
-  }
+    public Sphere(Vec3 position, double radius)
+    {
+        this.position = position;
+        this.radius = radius;
+    }
 
-  @Override
-  public double intersect (Ray r)
-  {
-    Vec3 c = pos.sub(r.pos);
-    double b = r.dir.dot(c);
-    double dsc = b * b - c.dot(c) + rad * rad;
-    if (dsc < 0)
-      return -1;
-    if (dsc == 0)
-      return b;
-    return b - Math.sqrt(dsc);
-  }
+    @Override
+    public double intersect(Ray r)
+    {
+        Vec3 c = position.sub(r.pos);
+        double b = r.dir.dot(c);
+        double dsc = b * b - c.dot(c) + radius * radius;
+        if (dsc < 0)
+            return -1;
+        if (dsc == 0)
+            return b;
+        return b - Math.sqrt(dsc);
+    }
 
-  @Override
-  double [] intersecta (Ray r)
-  {
-    Vec3 c = pos.sub(r.pos);
-    double b = r.dir.dot(c);
-    double dsc = b * b - c.dot(c) + rad * rad;
-    if (dsc <= 0)
-      return new double[0];
-    double sdsc = Math.sqrt(dsc);
-    double [] ret = {b - sdsc, b + sdsc};
-    return ret;
-  }
+    @Override
+    public double [] intersecta(Ray r)
+    {
+        Vec3 c = position.sub(r.pos);
+        double b = r.dir.dot(c);
+        double dsc = b * b - c.dot(c) + radius * radius;
+        if (dsc <= 0)
+            return new double[0];
+        double sdsc = Math.sqrt(dsc);
+        double [] ret = { b - sdsc, b + sdsc };
+        return ret;
+    }
 }

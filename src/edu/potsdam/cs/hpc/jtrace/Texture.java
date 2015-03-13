@@ -1,6 +1,16 @@
 package edu.potsdam.cs.hpc.jtrace;
 
-class Texture
+/**
+ * @author jlavieri
+ * @version 2015-03-12
+ * @since 2012-03-15
+ */
+public class Texture
 {
-  Pigment pig = new Pigment();
+    final Pigment pigment;
+    
+    public Texture(Pigment pigment)
+    {
+        this.pigment = pigment;
+    }
 }
