@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 /**
  * @author lavierijp
- * @version 2012-06-23
+ * @version 2015-03-13
  * @since 2012-03-15
  */
 class Renderer
@@ -40,6 +40,7 @@ class Renderer
 
     private Color [][] render()
     {
+        // TODO this needs to be a buffered image
         Color [][] image = new Color[height][width];
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++) {
