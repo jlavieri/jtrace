@@ -17,12 +17,11 @@ public class PerspectiveCamera implements Camera
         planeUp, // This is the up of the projection plane.
         projectionPlaneOrigin; // This is the position of the center of the projection plane.
     
-    // Projection depth.
+    // Projection depth. It's like zoom.
     final double projectionDepth;
     
     // Field of view.
     final double fov;
-    
     
     // These fields must be initialized before rendering by calling initialize()!
     double sceneWidth, sceneHeight,
@@ -48,7 +47,7 @@ public class PerspectiveCamera implements Camera
         sceneWidth = d.width;
         sceneHeight = d.height;
         projectionWidth = 2.0d * Math.tan(Math.toRadians(fov));
-        projectionHeight = projectionWidth * sceneWidth / sceneHeight;
+        projectionHeight = projectionWidth * sceneHeight / sceneWidth;
         projectionSceneWidthRatio = projectionWidth / sceneWidth;
         projectionSceneHeightRatio = projectionHeight / sceneHeight;
         halfProjectionWidth = projectionWidth / 2.0d;
