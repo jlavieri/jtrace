@@ -1,7 +1,7 @@
 package edu.potsdam.cs.hpc.jtrace.builder;
 
-import edu.potsdam.cs.hpc.jtrace.Sphere;
 import edu.potsdam.cs.hpc.jtrace.Vec3;
+import edu.potsdam.cs.hpc.jtrace.primitive.Sphere;
 
 /**
  * @author  jlavieri

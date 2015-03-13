@@ -7,6 +7,7 @@ package edu.potsdam.cs.hpc.jtrace;
  */
 public class Ray
 {
+    // Eye and offset.
     public final Vec3 pos, dir;
 
     public Ray(Vec3 pos, Vec3 dir)
@@ -19,7 +20,7 @@ public class Ray
      * Gets the point on this ray a given distance away from where it starts.
      * 
      * @param t
-     *            The scalar distance away from the start.
+     *            The scalar distance away from the eye.
      * @return A new position that is distance t in this ray's direction.
      */
     public Vec3 position(double t)

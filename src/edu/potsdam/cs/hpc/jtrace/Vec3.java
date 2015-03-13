@@ -33,7 +33,7 @@ public class Vec3
         return new Vec3(x + v.x, y + v.y, z + v.z);
     }
 
-    Vec3 sub(Vec3 v)
+    public Vec3 sub(Vec3 v)
     {
         return new Vec3(x - v.x, y - v.y, z - v.z);
     }
@@ -65,7 +65,7 @@ public class Vec3
         return new Vec3(x / d, y / d, z / d);
     }
 
-    double dot(Vec3 v)
+    public double dot(Vec3 v)
     {
         return x * v.x + y * v.y + z * v.z;
     }
