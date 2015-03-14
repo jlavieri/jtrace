@@ -58,7 +58,7 @@ public class JTrace
         .geom()
             .sphere()
                 .position(Vec3.O)
-                .radius(0.1)
+                .radius(0.2)
             .end()
             .material().texture().pigment(Color.WHITE).end().end()
         .end()

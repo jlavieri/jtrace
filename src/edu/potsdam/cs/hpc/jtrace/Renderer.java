@@ -26,7 +26,7 @@ class Renderer
     private final int width, height;
 
     // Statistics
-    private int pixelCount, rayCount, shadowRayCount;
+    private int eyeRayCount, reflectionRayCount, refractionRayCount, shadowRayCount;
     private long time;
 
     public Renderer(Scene scene, RenderSettings renderSettings)
@@ -38,9 +38,14 @@ class Renderer
         scene.camera.initialize(renderSettings.dimension);
     }
 
+    /**
+     * Traces a ray recursively.
+     * @param ray The ray to trace.
+     * @param depth The recursion depth. Casts start at 0.
+     * @return The radiance in the scene.
+     */
     private Color trace(Ray ray, int depth)
     {
-        rayCount++;
         double dis = MAX_DIS;
         
         // The geom that the ray will hit or null if it hit no geom.
@@ -65,16 +70,16 @@ class Renderer
             Color c = new Color();
             for (Light light : scene.lights) {
                 double its = 1d;
-                double disl = light.position.dis(p);
+                double distanceToLight = light.position.distanceTo(p);
                 loi: for (Geom g : scene.geoms) {
                     double [] disa = g.primitive.intersecta(new Ray(
                             light.position, p.directionTo(light.position)));
                     shadowRayCount++;
                     // MAYBE-DO Validate intersections.
                     for (int i = 0; i < disa.length; i += 2)
-                        if (disa[i] < disl)
-                            if (disa[i + 1] < disl
-                                    || Maths.equ(disa[i + 1], disl)) {
+                        if (disa[i] < distanceToLight)
+                            if (disa[i + 1] < distanceToLight
+                                    || Maths.equ(disa[i + 1], distanceToLight)) {
                                 its *= g.material.texture.pigment.color.t;
                                 if (its == 0d)
                                     break loi; // geom is in full shadow.
@@ -98,8 +103,8 @@ class Renderer
                 BufferedImage.TYPE_INT_RGB);
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++) {
+                eyeRayCount++;
                 bi.setRGB(x, y, trace(scene.camera.getRay(x, y), 0).toInt());
-                pixelCount++;
             }
         try {
             ImageIO.write(bi, "png", renderSettings.outputFile);
@@ -117,8 +122,9 @@ class Renderer
         PrintStream o = System.out;
         o.println("Render Statistics:");
         o.printf("\tTime: %d ms\n", time);
-        o.printf("\tPixels: %d\n", pixelCount);
-        o.printf("\tRays: %d\n", rayCount);
+        o.printf("\tEye Rays: %d\n", eyeRayCount);
+        o.printf("\tRecflection Rays: %d\n", reflectionRayCount);
+        o.printf("\tRefracted Rays: %d\n", refractionRayCount);
         o.printf("\tShadow Rays: %d\n", shadowRayCount);
     }
 

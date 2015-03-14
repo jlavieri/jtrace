@@ -70,7 +70,12 @@ public class Vec3
         return x * v.x + y * v.y + z * v.z;
     }
 
-    double dis(Vec3 v)
+    /**
+     * gets the distance from this vector to another.
+     * @param v the other vector.
+     * @return the distance between the two vectors.
+     */
+    double distanceTo(Vec3 v)
     {
         double dx = v.x - x, dy = v.y - y, dz = v.z - z;
         return Math.sqrt(dx * dx + dy * dy + dz * dz);
