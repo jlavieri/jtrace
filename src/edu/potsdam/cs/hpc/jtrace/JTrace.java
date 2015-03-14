@@ -47,6 +47,14 @@ public class JTrace
             .color(Color.WHITE)
         .end()
         
+        .geom()
+            .plane()
+                .position(Vec3.O)
+                .normal(Vec3.Y)
+            .end()
+            .material().texture().pigment(Color.GREY).end().end()
+        .end()
+        
         .geom().sphere().position(Vec3.O).radius(0.1).end()
         .material().texture().pigment(Color.WHITE).end().end().end()
         

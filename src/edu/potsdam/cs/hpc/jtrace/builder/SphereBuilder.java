@@ -5,7 +5,7 @@ import edu.potsdam.cs.hpc.jtrace.primitive.Sphere;
 
 /**
  * @author  jlavieri
- * @version 2015-03-12
+ * @version 2015-03-14
  * @since   2015-03-12
  */
 public class SphereBuilder
@@ -42,7 +42,5 @@ public class SphereBuilder
         gb.primitive = new Sphere(position, radius);
         return gb;
     }
-
-    
 
 }

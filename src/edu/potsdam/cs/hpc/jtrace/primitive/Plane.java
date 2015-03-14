@@ -6,14 +6,14 @@ import edu.potsdam.cs.hpc.jtrace.Vec3;
 
 /**
  * @author lavierijp
- * @version 2015-03-12
+ * @version 2015-03-14
  * @since 2012-06-23
  */
-class Plane extends Primitive
+public class Plane extends Primitive
 {
     Vec3 pos, nrm;
 
-    Plane(Vec3 pos, Vec3 nrm)
+    public Plane(Vec3 pos, Vec3 nrm)
     {
         this.pos = pos;
         this.nrm = nrm;

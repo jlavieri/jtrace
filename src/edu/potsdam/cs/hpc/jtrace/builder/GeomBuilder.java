@@ -6,7 +6,7 @@ import edu.potsdam.cs.hpc.jtrace.Primitive;
 
 /**
  * @author  jlavieri
- * @version 2015-03-12
+ * @version 2015-03-14
  * @since   2015-03-12
  */
 public class GeomBuilder
@@ -20,6 +20,11 @@ public class GeomBuilder
         this.sb = sb;
     }
 
+    public PlaneBuilder plane()
+    {
+        return new PlaneBuilder(this);
+    }
+    
     public SphereBuilder sphere()
     {
         return new SphereBuilder(this);
@@ -35,5 +40,4 @@ public class GeomBuilder
         sb.geoms.add(new Geom(primitive, material));
         return sb;
     }
-
 }
