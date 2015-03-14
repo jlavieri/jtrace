@@ -97,8 +97,10 @@ class Renderer
         BufferedImage bi = new BufferedImage(width, height,
                 BufferedImage.TYPE_INT_RGB);
         for (int y = 0; y < height; y++)
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < width; x++) {
                 bi.setRGB(x, y, trace(scene.camera.getRay(x, y), 0).toInt());
+                pixelCount++;
+            }
         try {
             ImageIO.write(bi, "png", renderSettings.outputFile);
         } catch (IOException e) {
