@@ -38,18 +38,6 @@ class Renderer
         scene.camera.initialize(renderSettings.dimension);
     }
 
-    private Color [][] render()
-    {
-        // TODO this needs to be a buffered image
-        Color [][] image = new Color[height][width];
-        for (int y = 0; y < height; y++)
-            for (int x = 0; x < width; x++) {
-                pixelCount++;
-                image[y][x] = trace(scene.camera.getRay(x, y), 0);
-            }
-        return image;
-    }
-
     private Color trace(Ray ray, int depth)
     {
         rayCount++;
@@ -102,17 +90,15 @@ class Renderer
         return scene.globalSettings.background;
     }
 
-    void renderToFile()
+    void render()
     {
         long start = System.currentTimeMillis();
 
-        Color [][] image = render();
-
         BufferedImage bi = new BufferedImage(width, height,
                 BufferedImage.TYPE_INT_RGB);
-        for (int i = 0; i < height; i++)
-            for (int j = 0; j < width; j++)
-                bi.setRGB(j, i, image[i][j].toInt());
+        for (int y = 0; y < height; y++)
+            for (int x = 0; x < width; x++)
+                bi.setRGB(x, y, trace(scene.camera.getRay(x, y), 0).toInt());
         try {
             ImageIO.write(bi, "png", renderSettings.outputFile);
         } catch (IOException e) {

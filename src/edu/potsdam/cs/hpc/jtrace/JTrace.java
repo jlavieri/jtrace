@@ -17,7 +17,7 @@ public class JTrace
         Scene testScene = buildTestScene();
         RenderSettings renderSettings = new RenderSettingsBuilder(args).build();
         System.out.println("Tracing...");
-        new Renderer(testScene, renderSettings).renderToFile();
+        new Renderer(testScene, renderSettings).render();
     }
 
     private static Scene buildTestScene()
@@ -55,8 +55,13 @@ public class JTrace
             .material().texture().pigment(Color.GREY).end().end()
         .end()
         
-        .geom().sphere().position(Vec3.O).radius(0.1).end()
-        .material().texture().pigment(Color.WHITE).end().end().end()
+        .geom()
+            .sphere()
+                .position(Vec3.O)
+                .radius(0.1)
+            .end()
+            .material().texture().pigment(Color.WHITE).end().end()
+        .end()
         
         .geom().sphere().position(Vec3.X).radius(0.1).end()
         .material().texture().pigment(Color.RED).end().end().end()
