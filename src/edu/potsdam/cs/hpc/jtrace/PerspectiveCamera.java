@@ -57,11 +57,11 @@ public class PerspectiveCamera implements Camera
     private double projectionPlanePositionX(int x)
     {
         return halfProjectionWidth - (double)x * projectionSceneWidthRatio;
-       // return p / 2.0d - v * p / s;
     }
     
     private double projectionPlanePositionY(double y)
     {
+        y = sceneHeight - y - 1; // Flip the y.
         return halfProjectionHeight - (double)y * projectionSceneHeightRatio;
     }
 
