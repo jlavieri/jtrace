@@ -14,7 +14,7 @@ public class GeomBuilder
 {
     final SceneBuilder sb;
     Primitive primitive;
-    Material material;
+    Material material = Material.DEFAULT;
     Color quickColor;
 
     public GeomBuilder(SceneBuilder sb)
@@ -45,11 +45,8 @@ public class GeomBuilder
 
     public SceneBuilder end()
     {
-        Material mat;
-        if (material != null)
-            mat = material;
-        else
-            mat = Material.DEFAULT;
+        if (primitive == null)
+            throw new IllegalStateException("Geom has no primitive set.");
         
         Color quick;
         if (quickColor != null)
@@ -59,7 +56,7 @@ public class GeomBuilder
         else
             quick = Color.BLACK;
         
-        sb.geoms.add(new Geom(primitive, mat, quick));
+        sb.geoms.add(new Geom(primitive, material, quick));
         return sb;
     }
 

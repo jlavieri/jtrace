@@ -79,11 +79,20 @@ class Renderer
         // Start radiance out as ambient light then multiply by geom color later.
         Color radiance = new Color(scene.globalSettings.ambientLight);
         
-        // This is the position on the geom that the ray hits.
+        // This is the intersection point of the geom with the ray.
         Vec3 point = ray.position(smallestDistance);
         
-        // Calculate shadow
+        // Calculate lighting
         for (Light light : scene.lights) {
+            Vec3 pointToLight = point.directionTo(light.position);
+            
+            Vec3 normOfPoint = closestGeom.primitive.normalOf(point);
+            
+            
+        }
+        
+        // Calculate shadow
+        /*for (Light light : scene.lights) {
             Ray shadowRay = new Ray(point, point.directionTo(light.position));
             shadowRayCount++;
             // TODO Maybe prims could have faster calcs for shadow rays?
@@ -92,16 +101,16 @@ class Renderer
                 if (distance < 0) {
                     // TODO phong illumination
                     radiance = radiance
-                            .addeq(closestGeom.material.texture.pigment.color);
+                            .sadd(closestGeom.material.texture.pigment.color);
                     // TODO this concludes that in any object in shadow is in
                     // full shadow.
                     break;
                 }
             }
             
-        }
+        }*/
          
-        radiance.muleq(closestGeom.material.texture.pigment.color);
+        radiance.smult(closestGeom.material.texture.pigment.color);
         
         /*
         for (Light light : scene.lights) {
