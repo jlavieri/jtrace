@@ -5,7 +5,7 @@ package edu.potsdam.cs.hpc.jtrace;
  * @version 2015-03-12
  * @since   2015-03-12
  */
-public abstract class Primitive implements Intersectable
+public abstract class Primitive implements Intersectable, NormalCalculable
 {
 
 }
