@@ -13,7 +13,7 @@ public class GlobalSettingsBuilder
     private final SceneBuilder sb;
     private Color background = Color.BLACK;
     private Color ambientLight = Color.BLACK;
-    private boolean quickColor = false;
+    private boolean useQuickColor = false;
 
     public GlobalSettingsBuilder(SceneBuilder sb)
     {
@@ -32,16 +32,16 @@ public class GlobalSettingsBuilder
         return this;
     }
 
-    public GlobalSettingsBuilder quickColor(boolean b)
+    public GlobalSettingsBuilder quickColor(boolean useQuickColor)
     {
-        this.quickColor = true;
+        this.useQuickColor = useQuickColor;
         return this;
     }
 
     public SceneBuilder end()
     {
         sb.globalSettings = new GlobalSettings(background, ambientLight,
-                quickColor);
+                useQuickColor);
         return sb;
     }
 }

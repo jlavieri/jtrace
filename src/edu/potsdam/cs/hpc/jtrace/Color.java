@@ -65,6 +65,11 @@ public class Color
         this.t = t;
     }
 
+    public Color(Color c)
+    {
+        this(c.r, c.g, c.b, c.f, c.t);
+    }
+
     void set(double r, double g, double b, double f, double t)
     {
         set(r, g, b);
@@ -89,13 +94,23 @@ public class Color
         return new Color(d * r, d * g, d * b, d * f, d * t);
     }
 
-    Color sadd(Color c)
+    Color addeq(Color c)
     {
         r += c.r;
         g += c.g;
         b += c.b;
         f += c.f;
         t += c.t;
+        return this;
+    }
+    
+    Color muleq(Color c)
+    {
+        r *= c.r;
+        g *= c.g;
+        b *= c.b;
+        f *= c.f;
+        t *= c.t;
         return this;
     }
 

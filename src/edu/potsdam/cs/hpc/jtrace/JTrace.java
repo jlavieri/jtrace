@@ -27,7 +27,7 @@ public class JTrace
         .globalSettings()
             .backGround(Color.BLACK)
             .ambientLight(Color.GREY10)
-            .quickColor(true)
+            .quickColor(false)
         .end()
         
         .camera()

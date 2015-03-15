@@ -18,4 +18,13 @@ public class GlobalSettings
         this.ambientLight = ambientLight;
         this.quickColor = quickColor;
     }
+    
+    @Override
+    public String toString()
+    {
+        return String.format("GlobalSettings:\n"
+                + "\tBackground Color: %s\n"
+                + "\tAmbient Light: %s\n"
+                + "\tQuick Color: %b\n", background, ambientLight, quickColor);
+    }
 }

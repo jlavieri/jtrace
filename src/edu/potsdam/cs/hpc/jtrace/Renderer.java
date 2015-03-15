@@ -26,7 +26,7 @@ class Renderer
 
     // Statistics
     private int eyeRayCount, reflectionRayCount, refractionRayCount,
-            shadowRayCount;
+            shadowRayCount, geomHitCount;
     private long time;
 
     public Renderer(Scene scene, RenderSettings renderSettings)
@@ -68,27 +68,48 @@ class Renderer
         if (closestGeom == null)
             return scene.globalSettings.background;
 
+        geomHitCount++;
+        
         // If quick color is on then simply return the basic color of the geom.
         if (scene.globalSettings.quickColor)
             return closestGeom.material.texture.pigment.color;
         
         // Otherwise we really do need to find the radiance of this ray.
-        Color radiance = new Color(); // Radiance will start out black.
+        
+        // Start radiance out as ambient light then multiply by geom color later.
+        Color radiance = new Color(scene.globalSettings.ambientLight);
         
         // This is the position on the geom that the ray hits.
-        Vec3 position = ray.position(smallestDistance);
+        Vec3 point = ray.position(smallestDistance);
         
-        
+        // Calculate shadow
         for (Light light : scene.lights) {
-            // TODO redo
+            Ray shadowRay = new Ray(point, point.directionTo(light.position));
+            shadowRayCount++;
+            // TODO Maybe prims could have faster calcs for shadow rays?
+            for (Geom geom : scene.geoms) {
+                double distance = geom.primitive.intersect(shadowRay);
+                if (distance < 0) {
+                    // TODO phong illumination
+                    radiance = radiance
+                            .addeq(closestGeom.material.texture.pigment.color);
+                    // TODO this concludes that in any object in shadow is in
+                    // full shadow.
+                    break;
+                }
+            }
+            
         }
+         
+        radiance.muleq(closestGeom.material.texture.pigment.color);
         
+        /*
         for (Light light : scene.lights) {
             double its = 1d;
-            double distanceToLight = light.position.distanceTo(position);
+            double distanceToLight = light.position.distanceTo(point);
             loi: for (Geom g : scene.geoms) {
                 double [] disa = g.primitive.intersecta(new Ray(light.position,
-                        position.directionTo(light.position)));
+                        point.directionTo(light.position)));
                 shadowRayCount++;
                 // MAYBE-DO Validate intersections.
                 for (int i = 0; i < disa.length; i += 2)
@@ -100,9 +121,9 @@ class Renderer
                                 break loi; // geom is in full shadow.
                         } // else geom is inside g!
             }
-            radiance.sadd(scene.globalSettings.ambientLight)
-                    .sadd(closestGeom.material.texture.pigment.color.mul(its));
-        }
+            radiance.addeq(scene.globalSettings.ambientLight)
+                    .addeq(closestGeom.material.texture.pigment.color.mul(its));
+        }*/
         return radiance;
     }
 
@@ -137,6 +158,7 @@ class Renderer
         o.printf("\tRecflection Rays: %d\n", reflectionRayCount);
         o.printf("\tRefracted Rays: %d\n", refractionRayCount);
         o.printf("\tShadow Rays: %d\n", shadowRayCount);
+        o.printf("\tScene Object Ray Hits: %d\n", geomHitCount);
     }
 
     void debug(Object o)
