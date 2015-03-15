@@ -94,7 +94,7 @@ public class Color
         return new Color(d * r, d * g, d * b, d * f, d * t);
     }
 
-    Color addeq(Color c)
+    Color sadd(Color c)
     {
         r += c.r;
         g += c.g;
@@ -104,7 +104,7 @@ public class Color
         return this;
     }
     
-    Color muleq(Color c)
+    Color smult(Color c)
     {
         r *= c.r;
         g *= c.g;
