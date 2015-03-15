@@ -26,7 +26,8 @@ class Renderer
     private final int width, height;
 
     // Statistics
-    private int eyeRayCount, reflectionRayCount, refractionRayCount, shadowRayCount;
+    private int eyeRayCount, reflectionRayCount, refractionRayCount,
+            shadowRayCount;
     private long time;
 
     public Renderer(Scene scene, RenderSettings renderSettings)
@@ -40,59 +41,70 @@ class Renderer
 
     /**
      * Traces a ray recursively.
-     * @param ray The ray to trace.
-     * @param depth The recursion depth. Casts start at 0.
+     * 
+     * @param ray
+     *            The ray to trace.
+     * @param depth
+     *            The recursion depth. Casts start at 0.
      * @return The radiance in the scene.
      */
     private Color trace(Ray ray, int depth)
     {
-        double dis = MAX_DIS;
-        
-        // The geom that the ray will hit or null if it hit no geom.
-        Geom geom = null;
-        
-        // Find the closest geom in the scene that this ray hits.
-        for (Geom g : scene.geoms) {
-            double d = g.primitive.intersect(ray);
-            if (d < 0d)
+        // Calculate the closest intersection of the ray with scene geoms.
+        Geom closestGeom = null;
+        double smallestDistance = MAX_DIS;
+
+        // TODO scene.geoms needs to be a filtered set of geoms by visbounding
+        for (Geom geom : scene.geoms) {
+            double distance = geom.primitive.intersect(ray);
+            if (distance < 0d)
                 continue;
-            if (d < dis) {
-                dis = d;
-                geom = g;
+            if (distance < smallestDistance) {
+                smallestDistance = distance;
+                closestGeom = geom;
             }
         }
+
+        // If the ray hits nothing return the background color.
+        if (closestGeom == null)
+            return scene.globalSettings.background;
+
+        // If quick color is on then simply return the basic color of the geom.
+        if (QUICK_COLOUR)
+            return closestGeom.material.texture.pigment.color;
         
-        // The ray hit something!
-        if (geom != null) {
-            if (QUICK_COLOUR)
-                return geom.material.texture.pigment.color;
-            Vec3 p = ray.position(dis);
-            Color c = new Color();
-            for (Light light : scene.lights) {
-                double its = 1d;
-                double distanceToLight = light.position.distanceTo(p);
-                loi: for (Geom g : scene.geoms) {
-                    double [] disa = g.primitive.intersecta(new Ray(
-                            light.position, p.directionTo(light.position)));
-                    shadowRayCount++;
-                    // MAYBE-DO Validate intersections.
-                    for (int i = 0; i < disa.length; i += 2)
-                        if (disa[i] < distanceToLight)
-                            if (disa[i + 1] < distanceToLight
-                                    || Maths.equ(disa[i + 1], distanceToLight)) {
-                                its *= g.material.texture.pigment.color.t;
-                                if (its == 0d)
-                                    break loi; // geom is in full shadow.
-                            } // else geom is inside g!
-                }
-                c.sadd(scene.globalSettings.ambientLight)
-                        .sadd(geom.material.texture.pigment.color.mul(its));
-            }
-            return c;
+        // Otherwise we really do need to find the radiance of this ray.
+        Color radiance = new Color(); // Radiance will start out black.
+        
+        // This is the position on the geom that the ray hits.
+        Vec3 position = ray.position(smallestDistance);
+        
+        
+        for (Light light : scene.lights) {
+            
         }
         
-        // The ray hit nothing.
-        return scene.globalSettings.background;
+        for (Light light : scene.lights) {
+            double its = 1d;
+            double distanceToLight = light.position.distanceTo(position);
+            loi: for (Geom g : scene.geoms) {
+                double [] disa = g.primitive.intersecta(new Ray(light.position,
+                        position.directionTo(light.position)));
+                shadowRayCount++;
+                // MAYBE-DO Validate intersections.
+                for (int i = 0; i < disa.length; i += 2)
+                    if (disa[i] < distanceToLight)
+                        if (disa[i + 1] < distanceToLight
+                                || Maths.equ(disa[i + 1], distanceToLight)) {
+                            its *= g.material.texture.pigment.color.t;
+                            if (its == 0d)
+                                break loi; // geom is in full shadow.
+                        } // else geom is inside g!
+            }
+            radiance.sadd(scene.globalSettings.ambientLight)
+                    .sadd(closestGeom.material.texture.pigment.color.mul(its));
+        }
+        return radiance;
     }
 
     void render()
