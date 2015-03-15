@@ -61,6 +61,7 @@ public class JTrace
                 .position(Vec3.O)
                 .radius(0.2)
             .end()
+            .quickColor(Color.WHITE)
             .material().texture().pigment(Color.WHITE).end().end()
         .end()
         

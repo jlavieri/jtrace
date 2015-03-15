@@ -9,11 +9,13 @@ public class Geom
 {
     final Primitive primitive;
     final Material material;
+    final Color quickColor;
     
-    public Geom (Primitive primitive, Material material)
+    public Geom (Primitive primitive, Material material, Color quickColor)
     {
         this.primitive = primitive;
         this.material = material;
+        this.quickColor = quickColor;
     }
     
     @Override

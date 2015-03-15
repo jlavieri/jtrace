@@ -72,7 +72,7 @@ class Renderer
         
         // If quick color is on then simply return the basic color of the geom.
         if (scene.globalSettings.quickColor)
-            return closestGeom.material.texture.pigment.color;
+            return closestGeom.quickColor;
         
         // Otherwise we really do need to find the radiance of this ray.
         
