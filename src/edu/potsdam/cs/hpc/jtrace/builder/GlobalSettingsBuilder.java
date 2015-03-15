@@ -5,7 +5,7 @@ import edu.potsdam.cs.hpc.jtrace.GlobalSettings;
 
 /**
  * @author jlavieri
- * @version 2015-03-12
+ * @version 2015-03-14
  * @since 2015-03-12
  */
 public class GlobalSettingsBuilder
@@ -13,8 +13,9 @@ public class GlobalSettingsBuilder
     private final SceneBuilder sb;
     private Color background = Color.BLACK;
     private Color ambientLight = Color.BLACK;
+    private boolean quickColor = false;
 
-    public GlobalSettingsBuilder (SceneBuilder sb)
+    public GlobalSettingsBuilder(SceneBuilder sb)
     {
         this.sb = sb;
     }
@@ -31,9 +32,16 @@ public class GlobalSettingsBuilder
         return this;
     }
 
+    public GlobalSettingsBuilder quickColor(boolean b)
+    {
+        this.quickColor = true;
+        return this;
+    }
+
     public SceneBuilder end()
     {
-        sb.globalSettings = new GlobalSettings(background, ambientLight);
+        sb.globalSettings = new GlobalSettings(background, ambientLight,
+                quickColor);
         return sb;
     }
 }

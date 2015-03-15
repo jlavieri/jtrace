@@ -17,7 +17,6 @@ class Renderer
     private static final int MAX_DEPTH = 5;
     private static final double ADC_BAILOUT = 1D / 255D;
     private static final double MAX_DIS = 1E10D;
-    private static final boolean QUICK_COLOUR = true;
 
     private final Scene scene;
     private final RenderSettings renderSettings;
@@ -70,7 +69,7 @@ class Renderer
             return scene.globalSettings.background;
 
         // If quick color is on then simply return the basic color of the geom.
-        if (QUICK_COLOUR)
+        if (scene.globalSettings.quickColor)
             return closestGeom.material.texture.pigment.color;
         
         // Otherwise we really do need to find the radiance of this ray.
@@ -81,7 +80,7 @@ class Renderer
         
         
         for (Light light : scene.lights) {
-            
+            // TODO redo
         }
         
         for (Light light : scene.lights) {
