@@ -32,29 +32,29 @@ public class JTrace
         
         .camera()
             .perspective()
-            .position(5, 2.5, 5)
+            .position(2, 1.5, 2)
             .lookAt(Vec3.O)
         .end()
         
         .light()
             .point()
             .position(20, 40, -20)
-            .color(Color.WHITE)
+            .color(Color.SKY_AQUA)
         .end()
         
         .light()
             .point()
             .position(-20, 40, -20)
-            .color(Color.WHITE)
+            .color(Color.VIOLET)
         .end()
-        
+        /*
         .geom()
             .plane()
                 .position(Vec3.O)
                 .normal(Vec3.Y)
             .end()
             .material().texture().pigment(Color.GREY).end().end()
-        .end()
+        .end()*/
         
         .geom()
             .sphere()

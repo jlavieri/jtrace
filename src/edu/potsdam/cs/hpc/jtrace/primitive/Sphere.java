@@ -47,6 +47,12 @@ public class Sphere extends Primitive
     }
     
     @Override
+    public Vec3 normalOf(Vec3 point)
+    {
+        return position.directionTo(point);
+    }
+
+    @Override
     public String toString()
     {
         return String.format("Sphere(%s, %s)", position, radius);

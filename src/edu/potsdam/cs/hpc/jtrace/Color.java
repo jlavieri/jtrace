@@ -89,7 +89,7 @@ public class Color
         return new Color(r + c.r, g + c.g, b + c.b, f + c.f, t + c.t);
     }
 
-    Color mul(double d)
+    Color mult(double d)
     {
         return new Color(d * r, d * g, d * b, d * f, d * t);
     }

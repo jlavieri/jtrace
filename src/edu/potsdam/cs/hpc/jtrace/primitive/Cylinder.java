@@ -40,4 +40,11 @@ public class Cylinder extends Primitive
     {
         return String.format("Cylinder(%s, %s, %s)", position1, position2, radius);
     }
+
+    @Override
+    public Vec3 normalOf(Vec3 point)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

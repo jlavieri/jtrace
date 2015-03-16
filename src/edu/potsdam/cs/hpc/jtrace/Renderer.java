@@ -50,29 +50,29 @@ class Renderer
     private Color trace(Ray ray, int depth)
     {
         // Calculate the closest intersection of the ray with scene geoms.
-        Geom closestGeom = null;
+        Geom geom = null;
         double smallestDistance = MAX_DIS;
 
         // TODO scene.geoms needs to be a filtered set of geoms by visbounding
-        for (Geom geom : scene.geoms) {
-            double distance = geom.primitive.intersect(ray);
+        for (Geom gitr : scene.geoms) {
+            double distance = gitr.primitive.intersect(ray);
             if (distance < 0d)
                 continue;
             if (distance < smallestDistance) {
                 smallestDistance = distance;
-                closestGeom = geom;
+                geom = gitr;
             }
         }
 
         // If the ray hits nothing return the background color.
-        if (closestGeom == null)
+        if (geom == null)
             return scene.globalSettings.background;
 
         geomHitCount++;
         
         // If quick color is on then simply return the basic color of the geom.
         if (scene.globalSettings.quickColor)
-            return closestGeom.quickColor;
+            return geom.quickColor;
         
         // Otherwise we really do need to find the radiance of this ray.
         
@@ -86,9 +86,16 @@ class Renderer
         for (Light light : scene.lights) {
             Vec3 pointToLight = point.directionTo(light.position);
             
-            Vec3 normOfPoint = closestGeom.primitive.normalOf(point);
+            Vec3 normOfPoint = geom.primitive.normalOf(point);
             
-            
+            if (geom.material.texture.finish.diffuse > 0) {
+                double dot = normOfPoint.dot(pointToLight);
+                if (dot > 0) {
+                    double diffuse = dot * geom.material.texture.finish.diffuse;
+                    radiance.sadd(geom.material.texture.pigment.color
+                            .mult(diffuse).smult(light.color));
+                }
+            }
         }
         
         // Calculate shadow
@@ -109,8 +116,6 @@ class Renderer
             }
             
         }*/
-         
-        radiance.smult(closestGeom.material.texture.pigment.color);
         
         /*
         for (Light light : scene.lights) {
