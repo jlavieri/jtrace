@@ -7,12 +7,8 @@ import java.io.PrintStream;
 import javax.imageio.ImageIO;
 
 import edu.potsdam.cs.hpc.jtrace.light.Light;
+import edu.potsdam.cs.hpc.jtrace.scenes.Scenes;
 
-/**
- * @author lavierijp
- * @version 2015-03-13
- * @since 2012-03-15
- */
 class Renderer
 {
     // TODO move these to render settings or global settings
@@ -31,9 +27,9 @@ class Renderer
             shadowRayCount, geomHitCount;
     private long time;
 
-    public Renderer(Scene scene, RenderSettings renderSettings)
+    public Renderer(RenderSettings renderSettings)
     {
-        this.scene = scene;
+        this.scene = Scenes.getSceneFromFile(renderSettings.inputFile);
         this.renderSettings = renderSettings;
         width = renderSettings.dimension.width;
         height = renderSettings.dimension.height;
