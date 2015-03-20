@@ -1,8 +1,8 @@
 package edu.potsdam.cs.hpc.jtrace.builder;
 
-import edu.potsdam.cs.hpc.jtrace.Camera;
-import edu.potsdam.cs.hpc.jtrace.PerspectiveCamera;
 import edu.potsdam.cs.hpc.jtrace.Vec3;
+import edu.potsdam.cs.hpc.jtrace.camera.Camera;
+import edu.potsdam.cs.hpc.jtrace.camera.PerspectiveCamera;
 
 /**
  * @author  jlavieri

@@ -1,9 +1,9 @@
 package edu.potsdam.cs.hpc.jtrace.builder;
 
 import edu.potsdam.cs.hpc.jtrace.Color;
-import edu.potsdam.cs.hpc.jtrace.Light;
-import edu.potsdam.cs.hpc.jtrace.PointLight;
 import edu.potsdam.cs.hpc.jtrace.Vec3;
+import edu.potsdam.cs.hpc.jtrace.light.Light;
+import edu.potsdam.cs.hpc.jtrace.light.PointLight;
 
 public class LightBuilder
 {

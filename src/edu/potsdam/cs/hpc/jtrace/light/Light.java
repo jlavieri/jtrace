@@ -1,4 +1,7 @@
-package edu.potsdam.cs.hpc.jtrace;
+package edu.potsdam.cs.hpc.jtrace.light;
+
+import edu.potsdam.cs.hpc.jtrace.Color;
+import edu.potsdam.cs.hpc.jtrace.Vec3;
 
 /**
  * @author jlavieri

@@ -1,5 +1,7 @@
 package edu.potsdam.cs.hpc.jtrace;
 
+import edu.potsdam.cs.hpc.jtrace.primitive.Primitive;
+
 /**
  * @author lavierijp
  * @version 2015-03-12

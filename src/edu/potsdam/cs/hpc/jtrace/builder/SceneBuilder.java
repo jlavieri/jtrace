@@ -3,11 +3,11 @@ package edu.potsdam.cs.hpc.jtrace.builder;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.potsdam.cs.hpc.jtrace.Camera;
 import edu.potsdam.cs.hpc.jtrace.Geom;
 import edu.potsdam.cs.hpc.jtrace.GlobalSettings;
-import edu.potsdam.cs.hpc.jtrace.Light;
 import edu.potsdam.cs.hpc.jtrace.Scene;
+import edu.potsdam.cs.hpc.jtrace.camera.Camera;
+import edu.potsdam.cs.hpc.jtrace.light.Light;
 
 
 /**

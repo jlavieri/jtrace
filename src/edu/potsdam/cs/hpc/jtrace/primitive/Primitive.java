@@ -1,4 +1,7 @@
-package edu.potsdam.cs.hpc.jtrace;
+package edu.potsdam.cs.hpc.jtrace.primitive;
+
+import edu.potsdam.cs.hpc.jtrace.Intersectable;
+import edu.potsdam.cs.hpc.jtrace.NormalCalculable;
 
 /**
  * @author  jlavieri

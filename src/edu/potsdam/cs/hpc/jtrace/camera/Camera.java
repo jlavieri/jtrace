@@ -1,6 +1,8 @@
-package edu.potsdam.cs.hpc.jtrace;
+package edu.potsdam.cs.hpc.jtrace.camera;
 
 import java.awt.Dimension;
+
+import edu.potsdam.cs.hpc.jtrace.Ray;
 
 /**
  * @author lavierijp

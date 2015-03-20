@@ -1,5 +1,8 @@
 package edu.potsdam.cs.hpc.jtrace;
 
+import edu.potsdam.cs.hpc.jtrace.camera.Camera;
+import edu.potsdam.cs.hpc.jtrace.light.Light;
+
 
 /**
  * @author lavierijp

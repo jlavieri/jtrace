@@ -1,6 +1,5 @@
 package edu.potsdam.cs.hpc.jtrace.primitive;
 
-import edu.potsdam.cs.hpc.jtrace.Primitive;
 import edu.potsdam.cs.hpc.jtrace.Ray;
 import edu.potsdam.cs.hpc.jtrace.Vec3;
 

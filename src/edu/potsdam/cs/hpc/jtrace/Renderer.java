@@ -6,6 +6,8 @@ import java.io.PrintStream;
 
 import javax.imageio.ImageIO;
 
+import edu.potsdam.cs.hpc.jtrace.light.Light;
+
 /**
  * @author lavierijp
  * @version 2015-03-13
