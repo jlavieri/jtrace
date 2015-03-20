@@ -10,6 +10,6 @@ import edu.potsdam.cs.hpc.jtrace.Vec3;
  */
 public abstract class Light
 {
-    Vec3 position;
-    Color color;
+    public Vec3 position;
+    public Color color;
 }

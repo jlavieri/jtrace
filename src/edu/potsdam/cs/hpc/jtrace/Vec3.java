@@ -28,7 +28,7 @@ public class Vec3
         this.z = z;
     }
 
-    Vec3 add(Vec3 v)
+    public Vec3 add(Vec3 v)
     {
         return new Vec3(x + v.x, y + v.y, z + v.z);
     }
@@ -38,7 +38,7 @@ public class Vec3
         return new Vec3(x - v.x, y - v.y, z - v.z);
     }
 
-    Vec3 cross(Vec3 v)
+    public Vec3 cross(Vec3 v)
     {
         return new Vec3(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
     }
@@ -86,7 +86,7 @@ public class Vec3
         return this.div(Math.sqrt(this.dot(this)));
     }
 
-    Vec3 sadd(Vec3 v)
+    public Vec3 sadd(Vec3 v)
     {
         x += v.x;
         y += v.y;
