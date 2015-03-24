@@ -22,7 +22,18 @@ public class Scenes
     {
         Scene scene = null;
         try {
+            if (inputFile.toString().equals("TestScene")) {
+                TestScene testScene = new TestScene();
+                SceneBuilder sceneBuilder = new SceneBuilder();
+                testScene.getSceneDescription(sceneBuilder);
+                return sceneBuilder.getScene();
+            }
             JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+            String parentDirectory = inputFile.getParent();
+            if (parentDirectory == null)
+                throw new IllegalArgumentException(
+                        String.format("Could not get parent directory of %s. Check that the file is correct.",
+                                      inputFile));
             Path classPath = Paths.get(inputFile.getParent());
             String className = inputFile.getName();
             className = className.substring(0, className.lastIndexOf('.'));
@@ -39,6 +50,8 @@ public class Scenes
             for (URL url : newClassPathURLs)
                 cpsb.append(url.getPath()).append(':');
             cpsb.deleteCharAt(cpsb.length() - 1);
+            System.out.printf("Compiling %s\nClasspath %s\n", inputFile,
+                              cpsb.toString());
             compilerArgs.add(cpsb.toString());
             compilerArgs.add(inputFile.getAbsolutePath());
             String [] compArgsStringArray = new String[compilerArgs.size()];
@@ -61,5 +74,4 @@ public class Scenes
         }
         return scene;
     }
-
 }
