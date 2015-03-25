@@ -1,4 +1,4 @@
-package edu.potsdam.cs.hpc.jtrace;
+package edu.potsdam.cs.hpc.jtrace.material;
 
 public class Finish
 {

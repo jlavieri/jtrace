@@ -2,7 +2,7 @@ package edu.potsdam.cs.hpc.jtrace.builder;
 
 import edu.potsdam.cs.hpc.jtrace.Color;
 import edu.potsdam.cs.hpc.jtrace.Geom;
-import edu.potsdam.cs.hpc.jtrace.Material;
+import edu.potsdam.cs.hpc.jtrace.material.Material;
 import edu.potsdam.cs.hpc.jtrace.primitive.Primitive;
 
 public class GeomBuilder

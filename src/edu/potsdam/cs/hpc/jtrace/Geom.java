@@ -1,5 +1,6 @@
 package edu.potsdam.cs.hpc.jtrace;
 
+import edu.potsdam.cs.hpc.jtrace.material.Material;
 import edu.potsdam.cs.hpc.jtrace.primitive.Primitive;
 
 public class Geom

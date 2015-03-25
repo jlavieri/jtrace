@@ -1,6 +1,6 @@
 package edu.potsdam.cs.hpc.jtrace.builder;
 
-import edu.potsdam.cs.hpc.jtrace.Finish;
+import edu.potsdam.cs.hpc.jtrace.material.Finish;
 
 public class FinishBuilder
 {

@@ -1,4 +1,6 @@
-package edu.potsdam.cs.hpc.jtrace;
+package edu.potsdam.cs.hpc.jtrace.material;
+
+import edu.potsdam.cs.hpc.jtrace.Color;
 
 public class Pigment
 {

@@ -1,7 +1,7 @@
 package edu.potsdam.cs.hpc.jtrace.builder;
 
 import edu.potsdam.cs.hpc.jtrace.Color;
-import edu.potsdam.cs.hpc.jtrace.Pigment;
+import edu.potsdam.cs.hpc.jtrace.material.Pigment;
 
 public class PigmentBuilder
 {

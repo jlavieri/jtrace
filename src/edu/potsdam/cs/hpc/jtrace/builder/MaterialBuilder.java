@@ -1,7 +1,7 @@
 package edu.potsdam.cs.hpc.jtrace.builder;
 
-import edu.potsdam.cs.hpc.jtrace.Material;
-import edu.potsdam.cs.hpc.jtrace.Texture;
+import edu.potsdam.cs.hpc.jtrace.material.Material;
+import edu.potsdam.cs.hpc.jtrace.material.Texture;
 
 public class MaterialBuilder
 {

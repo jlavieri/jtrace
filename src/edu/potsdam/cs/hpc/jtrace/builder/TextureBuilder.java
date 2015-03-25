@@ -1,9 +1,9 @@
 package edu.potsdam.cs.hpc.jtrace.builder;
 
 import edu.potsdam.cs.hpc.jtrace.Color;
-import edu.potsdam.cs.hpc.jtrace.Finish;
-import edu.potsdam.cs.hpc.jtrace.Pigment;
-import edu.potsdam.cs.hpc.jtrace.Texture;
+import edu.potsdam.cs.hpc.jtrace.material.Finish;
+import edu.potsdam.cs.hpc.jtrace.material.Pigment;
+import edu.potsdam.cs.hpc.jtrace.material.Texture;
 
 public class TextureBuilder
 {
