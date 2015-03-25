@@ -3,18 +3,12 @@ package edu.potsdam.cs.hpc.jtrace;
 import edu.potsdam.cs.hpc.jtrace.camera.Camera;
 import edu.potsdam.cs.hpc.jtrace.light.Light;
 
-
-/**
- * @author lavierijp
- * @version 2015-03-12
- * @since 2012-03-15
- */
 public class Scene
 {
-    final GlobalSettings globalSettings;
-    final Camera camera;
-    final Light[] lights;
-    final Geom[] geoms;
+    public final GlobalSettings globalSettings;
+    public final Camera camera;
+    public final Light[] lights;
+    public final Geom[] geoms;
     
     public Scene (GlobalSettings globalSettings, Camera camera, Light[] lights,
             Geom[] geoms)

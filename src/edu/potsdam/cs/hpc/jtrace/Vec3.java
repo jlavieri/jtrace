@@ -14,7 +14,7 @@ public class Vec3
             NX = new Vec3(-1d, 0d, 0d), NY = new Vec3(0d, -1d, 0d),
             NZ = new Vec3(0d, 0d, -1d);
 
-    double x, y, z;
+    public double x, y, z;
 
     public Vec3()
     {

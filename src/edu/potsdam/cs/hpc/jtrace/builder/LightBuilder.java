@@ -7,10 +7,15 @@ import edu.potsdam.cs.hpc.jtrace.light.PointLight;
 
 public class LightBuilder
 {
+    private static final LightType DEFAULT_TYPE = LightType.POINT;
+    private static final Vec3 DEFAULT_POSITION = Vec3.O;
+    private static final Color DEFAULT_COLOR = Color.WHITE;
+
     private final SceneBuilder sb;
-    private LightType type = LightType.POINT;
-    private Vec3 position = Vec3.O;
-    private Color color = Color.WHITE;
+
+    private LightType type = DEFAULT_TYPE;
+    private Vec3 position = DEFAULT_POSITION;
+    private Color color = DEFAULT_COLOR;
 
     private enum LightType
     {

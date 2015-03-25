@@ -5,17 +5,17 @@ import edu.potsdam.cs.hpc.jtrace.Finish;
 import edu.potsdam.cs.hpc.jtrace.Pigment;
 import edu.potsdam.cs.hpc.jtrace.Texture;
 
-/**
- * @author jlavieri
- * @version 2015-03-15
- * @since 2015-03-12
- */
 public class TextureBuilder
 {
+    private static final Pigment DEFAULT_PIGMENT = PigmentBuilder.DEFAULT;
+    private static final Finish DEFAULT_FINISH = FinishBuilder.DEFAULT;
+
+    static final Texture DEFAULT = new Texture(DEFAULT_PIGMENT, DEFAULT_FINISH);
+
     private final MaterialBuilder mb;
 
-    Pigment pigment = Pigment.DEFAULT;
-    Finish finish = Finish.DEFAULT;
+    Pigment pigment = DEFAULT_PIGMENT;
+    Finish finish = DEFAULT_FINISH;
 
     public TextureBuilder(MaterialBuilder mb)
     {
@@ -27,7 +27,7 @@ public class TextureBuilder
         pigment = new Pigment(color);
         return this;
     }
-    
+
     public FinishBuilder finish()
     {
         return new FinishBuilder(this);

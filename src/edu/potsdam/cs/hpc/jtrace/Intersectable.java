@@ -10,7 +10,7 @@ public interface Intersectable
      * @return The closest (towards the position of the ray) intersection of the
      *         ray with this Intersectable.
      */
-    abstract double intersect(Ray ray);
+    public abstract double intersect(Ray ray);
 
-    abstract double [] intersecta(Ray ray);
+    public abstract double [] intersecta(Ray ray);
 }

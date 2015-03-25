@@ -2,16 +2,11 @@ package edu.potsdam.cs.hpc.jtrace;
 
 import edu.potsdam.cs.hpc.jtrace.primitive.Primitive;
 
-/**
- * @author lavierijp
- * @version 2015-03-12
- * @since 2012-03-15
- */
 public class Geom
 {
-    final Primitive primitive;
-    final Material material;
-    final Color quickColor;
+    public final Primitive primitive;
+    public final Material material;
+    public final Color quickColor;
     
     public Geom (Primitive primitive, Material material, Color quickColor)
     {

@@ -5,8 +5,8 @@ import java.io.File;
 
 public class RenderSettings
 {
-    final Dimension dimension;
-    final File inputFile, outputFile;
+    public final Dimension dimension;
+    public final File inputFile, outputFile;
 
     public RenderSettings(Dimension dimension, File inputFile, File outputFile)
     {

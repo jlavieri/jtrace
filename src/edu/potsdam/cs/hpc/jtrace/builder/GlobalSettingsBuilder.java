@@ -3,14 +3,17 @@ package edu.potsdam.cs.hpc.jtrace.builder;
 import edu.potsdam.cs.hpc.jtrace.Color;
 import edu.potsdam.cs.hpc.jtrace.GlobalSettings;
 
-/**
- * @author jlavieri
- * @version 2015-03-14
- * @since 2015-03-12
- */
 public class GlobalSettingsBuilder
 {
+    private static final Color DEFAULT_BACKGROUND = Color.BLACK;
+    private static final Color DEFAULT_AMBIENT_LIGHT = Color.BLACK;
+    private static final boolean DEFAULT_QUICK_COLOR = false;
+
+    static final GlobalSettings DEFAULT = new GlobalSettings(
+            DEFAULT_BACKGROUND, DEFAULT_AMBIENT_LIGHT, DEFAULT_QUICK_COLOR);
+
     private final SceneBuilder sb;
+
     private Color background = Color.BLACK;
     private Color ambientLight = Color.BLACK;
     private boolean useQuickColor = false;

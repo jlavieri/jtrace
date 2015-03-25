@@ -5,17 +5,16 @@ import edu.potsdam.cs.hpc.jtrace.Geom;
 import edu.potsdam.cs.hpc.jtrace.Material;
 import edu.potsdam.cs.hpc.jtrace.primitive.Primitive;
 
-/**
- * @author jlavieri
- * @version 2015-03-15
- * @since 2015-03-12
- */
 public class GeomBuilder
 {
-    final SceneBuilder sb;
-    Primitive primitive;
-    Material material = Material.DEFAULT;
-    Color quickColor;
+    private static final Material DEFAULT_MATERIAL = MaterialBuilder.DEFAULT;
+    private static final Color DEFAULT_QUICK_COLOR = Color.BLACK;
+
+    private final SceneBuilder sb;
+
+    Primitive primitive; // Primitive is required for geom.
+    Material material = DEFAULT_MATERIAL;
+    private Color quickColor; // Default logic in GeomBuilder.end().
 
     public GeomBuilder(SceneBuilder sb)
     {
@@ -54,7 +53,7 @@ public class GeomBuilder
         else if (material.texture.pigment.color != null)
             quick = material.texture.pigment.color;
         else
-            quick = Color.BLACK;
+            quick = DEFAULT_QUICK_COLOR;
         
         sb.geoms.add(new Geom(primitive, material, quick));
         return sb;

@@ -3,16 +3,15 @@ package edu.potsdam.cs.hpc.jtrace.builder;
 import edu.potsdam.cs.hpc.jtrace.Vec3;
 import edu.potsdam.cs.hpc.jtrace.primitive.Sphere;
 
-/**
- * @author  jlavieri
- * @version 2015-03-14
- * @since   2015-03-12
- */
 public class SphereBuilder
 {
+    private static final Vec3 DEFAULT_POSITION = Vec3.O;
+    private static final double DEFAULT_RADIUS = 1.0;
+
     private final GeomBuilder gb;
-    private Vec3 position;
-    private double radius;
+
+    private Vec3 position = DEFAULT_POSITION;
+    private double radius = DEFAULT_RADIUS;
     
     public SphereBuilder(GeomBuilder gb)
     {

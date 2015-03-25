@@ -4,22 +4,26 @@ import edu.potsdam.cs.hpc.jtrace.Vec3;
 import edu.potsdam.cs.hpc.jtrace.camera.Camera;
 import edu.potsdam.cs.hpc.jtrace.camera.PerspectiveCamera;
 
-/**
- * @author  jlavieri
- * @version 2015-03-12
- * @since   2015-03-12
- */
 public class CameraBuilder
 {
-    private final SceneBuilder sb;
-    
-    private Projection projection = Projection.PERSPECTIVE;
-    private Vec3 position = Vec3.NZ;
-    private Vec3 lookAt = Vec3.O;
-    private Vec3 up = Vec3.Y;
-    private double fov = 30.0; // Degrees! FOV is in degrees, not radians.
+    private static final Projection DEFAULT_PROJECTION = Projection.PERSPECTIVE;
+    private static final Vec3 DEFAULT_POSITION = Vec3.O;
+    private static final Vec3 DEFAULT_LOOK_AT = Vec3.Z;
+    private static final Vec3 DEFAULT_UP = Vec3.Y;
+    private static final double DEFAULT_FOV = 30.0; // Degrees.
 
-    public CameraBuilder (SceneBuilder sb)
+    static final Camera DEFAULT = new PerspectiveCamera(DEFAULT_POSITION,
+            DEFAULT_LOOK_AT, DEFAULT_UP, DEFAULT_FOV);
+
+    private final SceneBuilder sb;
+
+    private Projection projection = DEFAULT_PROJECTION;
+    private Vec3 position = DEFAULT_POSITION;
+    private Vec3 lookAt = DEFAULT_LOOK_AT;
+    private Vec3 up = DEFAULT_UP;
+    private double fov = DEFAULT_FOV;
+
+    public CameraBuilder(SceneBuilder sb)
     {
         this.sb = sb;
     }
@@ -29,9 +33,8 @@ public class CameraBuilder
         projection = Projection.PERSPECTIVE;
         return this;
     }
-    
-    private enum Projection
-    {
+
+    private enum Projection {
         PERSPECTIVE
     }
 
@@ -46,24 +49,23 @@ public class CameraBuilder
         lookAt = new Vec3(x, y, z);
         return this;
     }
-    
+
     public CameraBuilder lookAt(Vec3 lookAt)
     {
         this.lookAt = lookAt;
         return this;
     }
-    
+
     public SceneBuilder end()
     {
         Camera c;
         switch (projection) {
-            case PERSPECTIVE:
-            default:
-                c = new PerspectiveCamera(position, lookAt, up, fov);
+        case PERSPECTIVE:
+        default:
+            c = new PerspectiveCamera(position, lookAt, up, fov);
         }
         sb.camera = c;
         return sb;
     }
 
-    
 }

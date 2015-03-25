@@ -3,15 +3,15 @@ package edu.potsdam.cs.hpc.jtrace.builder;
 import edu.potsdam.cs.hpc.jtrace.Vec3;
 import edu.potsdam.cs.hpc.jtrace.primitive.Plane;
 
-/**
- * @author  jlavieri
- * @version 2015-03-14
- * @since   2015-03-14
- */
 public class PlaneBuilder
 {
+    private static final Vec3 DEFAULT_POSITION = Vec3.O;
+    private static final Vec3 DEFAULT_NORMAL = Vec3.Y;
+
     private final GeomBuilder gb;
-    private Vec3 position, normal;
+
+    private Vec3 position = DEFAULT_POSITION;
+    private Vec3 normal = DEFAULT_NORMAL;
 
     public PlaneBuilder(GeomBuilder gb)
     {
