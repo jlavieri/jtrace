@@ -82,33 +82,33 @@ class Renderer
         Color radiance = new Color(scene.globalSettings.ambientLight);
 
         // This is the intersection point of the geom with the ray.
-        Vec3 point = ray.position(smallestDistance);
+        Vec3 intersectionPoint = ray.position(smallestDistance);
+        Vec3 intersectionNorm = geom.primitive.normalOf(intersectionPoint);
 
         // Calculate lighting
         for (Light light : scene.lights) {
 
             // Shadow
             double shade = 1.0d;
-            Vec3 pointToLight = point.directionTo(light.position);
-            Ray shadowRay = new Ray(point, pointToLight);
+            Vec3 pointToLight = intersectionPoint.directionTo(light.position);
+            Ray shadowRay = new Ray(intersectionPoint, pointToLight);
             shadowRayCount++;
             for (Geom gitr : scene.geoms)
                 if (gitr != geom) {
-                    double distanceFromGeomToGitr =
-                            gitr.primitive.intersect(shadowRay);
-                    double distanceFromGeomToLight =
-                            point.distanceTo(light.position);
+                    double distanceFromGeomToGitr = gitr.primitive
+                            .intersect(shadowRay);
+                    double distanceFromGeomToLight = intersectionPoint
+                            .distanceTo(light.position);
                     if (distanceFromGeomToGitr > 0
-                        && distanceFromGeomToGitr < distanceFromGeomToLight) {
+                            && distanceFromGeomToGitr < distanceFromGeomToLight) {
                         shade = 0.0d;
                         break;
                     }
                 }
 
             // Diffuse Lighting
-            Vec3 normOfPoint = geom.primitive.normalOf(point);
             if (geom.material.texture.finish.diffuse > 0) {
-                double dot = normOfPoint.dot(pointToLight);
+                double dot = intersectionNorm.dot(pointToLight);
                 if (dot > 0) {
                     double diffuse = dot * geom.material.texture.finish.diffuse
                             * shade;
@@ -116,6 +116,19 @@ class Renderer
                             .mult(diffuse).smult(light.color));
                 }
             }
+        }
+
+        // Reflection
+        if (geom.material.texture.finish.reflection > 0.0d
+                && depth < MAX_DEPTH) {
+            Vec3 reflectionDirection = intersectionNorm
+                    .mul(2.0d * ray.direction.dot(intersectionNorm))
+                    .directionTo(ray.direction);
+            Ray reflectionRay = new Ray(intersectionPoint, reflectionDirection);
+            reflectionRayCount++;
+            Color reflectionColor = trace(reflectionRay, depth + 1);
+            radiance.sadd(reflectionColor.mult(geom.material.texture.finish.reflection)
+                          .smult(geom.material.texture.pigment.color));
         }
 
         return radiance;

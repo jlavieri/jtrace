@@ -43,6 +43,9 @@ public class RsocpScene implements SceneDescription
             .material()
                 .texture()
                     .pigment(Color.BLUE)
+                    .finish()
+                        .reflection(0.4)
+                    .end()
                 .end()
             .end()
         .end();
