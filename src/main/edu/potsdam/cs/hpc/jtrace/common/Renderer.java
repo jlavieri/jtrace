@@ -78,7 +78,7 @@ class Renderer
 
         // This is the intersection point of the geom with the ray.
         Vec3 intersectionPoint = ray.position(smallestDistance);
-        Vec3 intersectionNorm = geom.primitive.normalOf(intersectionPoint);
+        Vec3 intersectionNormal = geom.primitive.normalOf(intersectionPoint);
 
         Color pigment = geom.material.texture.pigment
                 .getColor(intersectionPoint);
@@ -105,22 +105,34 @@ class Renderer
                     }
                 }
 
+            double normDotLight = intersectionNormal.dot(pointToLight);
+
             // Diffuse Lighting
-            if (geom.material.texture.finish.diffuse > 0) {
-                double dot = intersectionNorm.dot(pointToLight);
-                if (dot > 0) {
-                    double diffuse = dot * geom.material.texture.finish.diffuse
-                            * shade;
+            if (geom.material.texture.finish.diffuse > 0.0d) {
+                if (normDotLight > 0) {
+                    double diffuse = normDotLight
+                            * geom.material.texture.finish.diffuse * shade;
                     radiance.addeq(pigment.mult(diffuse).multeq(light.color));
+                }
+            }
+
+            // Specular Lighting
+            if (geom.material.texture.finish.specular > 0.0d) {
+                double rayReflection = ray.direction.dot(pointToLight
+                        .reflect(intersectionNormal, normDotLight));
+                if (rayReflection > 0) {
+                    double specular = Math.pow(rayReflection, 20.0d)
+                            * geom.material.texture.finish.specular * shade;
+                    radiance.addeq(light.color.mult(specular));
                 }
             }
         }
 
         // Reflection
         if (geom.material.texture.finish.reflection > 0.0d && depth < MAX_DEPTH) {
-            Vec3 reflectionDirection = intersectionNorm
-                    .mul(2.0d * ray.direction.dot(intersectionNorm))
-                    .directionTo(ray.direction);
+            Vec3 reflectionDirection = ray.direction
+                    .reflect(intersectionNormal,
+                             ray.direction.dot(intersectionNormal));
             Ray reflectionRay = new Ray(intersectionPoint, reflectionDirection);
             reflectionRayCount++;
             Color reflectionColor = trace(reflectionRay, depth + 1);

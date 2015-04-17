@@ -148,6 +148,11 @@ public class Vec3
     {
         return x * v.x + y * v.y + z * v.z;
     }
+    
+    public Vec3 reflect (Vec3 normal, double dot)
+    {
+        return sub(normal.mul(2.0d * dot));
+    }
 
     /**
      * gets the distance from this vector to another.
