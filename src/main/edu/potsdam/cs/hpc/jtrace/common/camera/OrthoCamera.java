@@ -41,7 +41,7 @@ class OrthoCamera implements Camera
     public Ray getRay(int x, int y)
     {
         return new Ray(pos.add(left.mul(planarPos(x, w, sw)))
-                .sadd(up.mul(planarPos(y, h, sh))), dir);
+                .addeq(up.mul(planarPos(y, h, sh))), dir);
     }
 
     @Override

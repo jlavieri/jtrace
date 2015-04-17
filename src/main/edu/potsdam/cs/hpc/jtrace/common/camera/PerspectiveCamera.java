@@ -74,7 +74,7 @@ public class PerspectiveCamera implements Camera
         return new Ray(position, position.directionTo(
                 projectionPlaneOrigin
                 .add(planeLeft.mul(projectionPlanePositionX(x)))
-                .sadd(planeUp.mul(projectionPlanePositionY(y)))));
+                .addeq(planeUp.mul(projectionPlanePositionY(y)))));
     }
     
     @Override
