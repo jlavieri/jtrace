@@ -8,12 +8,21 @@ package edu.potsdam.cs.hpc.jtrace.common;
 public class Ray
 {
     // Eye and offset.
-    public final Vec3 pos, dir;
+    public final Vec3 position, direction;
 
-    public Ray(Vec3 pos, Vec3 dir)
+    /**
+     * Constructs a ray given an eye position and direction. The direction
+     * should have length equal to one.
+     * 
+     * @param position
+     *            The eye position.
+     * @param direction
+     *            The normed direction vector.
+     */
+    public Ray (Vec3 position, Vec3 direction)
     {
-        this.pos = pos;
-        this.dir = dir;
+        this.position = position;
+        this.direction = direction;
     }
 
     /**
@@ -23,14 +32,14 @@ public class Ray
      *            The scalar distance away from the eye.
      * @return A new position that is distance t in this ray's direction.
      */
-    public Vec3 position(double t)
+    public Vec3 position (double t)
     {
-        return pos.add(dir.mul(t));
+        return position.add(direction.mul(t));
     }
 
     @Override
-    public String toString()
+    public String toString ()
     {
-        return String.format("Ray(%s, %s)", pos, dir);
+        return String.format("Ray(%s, %s)", position, direction);
     }
 }

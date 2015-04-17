@@ -44,7 +44,7 @@ public class Vec3
     }
 
     /**
-     * Gets the direction of another vector relative to this one.
+     * Gets the normed direction of another vector relative to this one.
      * 
      * @param v A vector.
      * @return A unit vector pointing in the direction of the given vector from

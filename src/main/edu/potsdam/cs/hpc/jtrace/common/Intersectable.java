@@ -7,10 +7,8 @@ public interface Intersectable
      * 
      * @param ray
      *            The ray.
-     * @return The closest (towards the position of the ray) intersection of the
-     *         ray with this Intersectable.
+     * @return The minimum distance of intersection from the ray's position to
+     *         the intersectable. -1 if no intersection exists.
      */
-    public abstract double intersect(Ray ray);
-
-    public abstract double [] intersecta(Ray ray);
+    public abstract double intersect (Ray ray);
 }
