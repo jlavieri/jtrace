@@ -36,22 +36,22 @@ public class Color implements IColor
 
     double r, g, b, f, t; // Red, Green, Blue, Filter, Transmit
 
-    Color ()
+    public Color ()
     {
         this(0d);
     }
 
-    Color (double d)
+    public Color (double d)
     {
         this(d, d, d);
     }
 
-    Color (double r, double g, double b)
+    public Color (double r, double g, double b)
     {
         this(r, g, b, 0d, 0d);
     }
 
-    Color (double r, double g, double b, double f, double t)
+    public Color (double r, double g, double b, double f, double t)
     {
         this.r = r;
         this.g = g;
@@ -120,6 +120,19 @@ public class Color implements IColor
     public Color mult (double d)
     {
         return new Color(d * r, d * g, d * b, d * f, d * t);
+    }
+
+    /**
+     * Multiplies this color with another color and returns the product as a new
+     * color.
+     * 
+     * @param c
+     *            The color multiplier.
+     * @return A new color product of this color and the color multiplier.
+     */
+    public Color mult (Color c)
+    {
+        return new Color(r * c.r, g * c.g, b * c.b, f * c.f, t * c.t);
     }
 
     /**
