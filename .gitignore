@@ -1,5 +1,3 @@
-/.project
+/build/
 /.classpath
-/bin/
-/.settings/
-*.log
+/.project
