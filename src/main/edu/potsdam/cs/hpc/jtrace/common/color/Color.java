@@ -79,19 +79,42 @@ public class Color
         this.b = b;
     }
 
-    Color add(Color c)
+    /**
+     * Adds this color with another color and returns the sum as a new color.
+     * 
+     * @param c
+     *            The color augend.
+     * @return A new color sum of this color and the color augend.
+     */
+    public Color add(Color c)
     {
         return new Color(r + c.r, g + c.g, b + c.b, f + c.f, t + c.t);
     }
 
     /**
-     * Calculates a new color product of this color multicand and a given scalar
-     * multiplier.
+     * Adds this color with another color and assigns this color to the new
+     * value.
+     * 
+     * @param c
+     *            The color augend.
+     * @return This newly mutated color sum.
+     */
+    public Color addeq(Color c)
+    {
+        r += c.r;
+        g += c.g;
+        b += c.b;
+        f += c.f;
+        t += c.t;
+        return this;
+    }
+
+    /**
+     * Multiplies this color with a scalar and returns as a new color.
      * 
      * @param d
      *            The scalar multiplier.
-     * @return A new color product of this color multicand and the scalar
-     *         multiplier.
+     * @return A new color product of this color and the scalar multplier.
      */
     public Color mult (double d)
     {
@@ -99,12 +122,12 @@ public class Color
     }
 
     /**
-     * Sets this color to the pointwise color product of this color multicand
-     * and another given color multiplier.
+     * Multiplies this color with another color and assigns this color to the
+     * new value.
      * 
      * @param c
      *            The color multiplier.
-     * @return This newly mutated color pointwise product.
+     * @return This newly mutated color product.
      */
     public Color multeq (Color c)
     {
@@ -116,17 +139,12 @@ public class Color
         return this;
     }
 
-    Color sadd(Color c)
-    {
-        r += c.r;
-        g += c.g;
-        b += c.b;
-        f += c.f;
-        t += c.t;
-        return this;
-    }
-
-    int toInt()
+    /**
+     * Converts this color to a 24-bit integer.
+     * 
+     * @return The 24-bit integer representation of this color.
+     */
+    public int toInt()
     {
         int r = Math.min((int) (this.r * 255d), 255);
         int b = Math.min((int) (this.b * 255d), 255);

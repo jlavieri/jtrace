@@ -113,7 +113,7 @@ class Renderer
                 if (dot > 0) {
                     double diffuse = dot * geom.material.texture.finish.diffuse
                             * shade;
-                    radiance.sadd(geom.material.texture.pigment.color
+                    radiance.addeq(geom.material.texture.pigment.color
                             .mult(diffuse).multeq(light.color));
                 }
             }
@@ -128,7 +128,7 @@ class Renderer
             Ray reflectionRay = new Ray(intersectionPoint, reflectionDirection);
             reflectionRayCount++;
             Color reflectionColor = trace(reflectionRay, depth + 1);
-            radiance.sadd(reflectionColor.mult(geom.material.texture.finish.reflection)
+            radiance.addeq(reflectionColor.mult(geom.material.texture.finish.reflection)
                           .multeq(geom.material.texture.pigment.color));
         }
 
