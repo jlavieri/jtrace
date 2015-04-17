@@ -39,6 +39,21 @@ public class PigmentBuilder
         this.pattern = pattern;
         return this;
     }
+    
+    public PigmentBuilder checker ()
+    {
+        pattern = PatternBuilder.CHECKER;
+        return this;
+    }
+    
+    public PigmentBuilder colors (Color ... colors)
+    {
+       ColorList colorList = new ColorList();
+       for (Color color : colors)
+           colorList.add(color);
+       color = colorList;
+       return this;
+    }
 
     public TextureBuilder end ()
     {
