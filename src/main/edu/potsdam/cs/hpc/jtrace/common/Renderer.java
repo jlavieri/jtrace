@@ -76,15 +76,13 @@ class Renderer
         if (scene.globalSettings.quickColor)
             return geom.quickColor;
 
-        // Otherwise we really do need to find the radiance of this ray.
-
-        // Start radiance out as ambient light then multiply by geom color
-        // later.
-        Color radiance = new Color(scene.globalSettings.ambientLight);
-
         // This is the intersection point of the geom with the ray.
         Vec3 intersectionPoint = ray.position(smallestDistance);
         Vec3 intersectionNorm = geom.primitive.normalOf(intersectionPoint);
+
+        Color pigment = geom.material.texture.pigment
+                .getColor(intersectionPoint);
+        Color radiance = pigment.mult(scene.globalSettings.ambientLight);
 
         // Calculate lighting
         for (Light light : scene.lights) {
@@ -113,9 +111,7 @@ class Renderer
                 if (dot > 0) {
                     double diffuse = dot * geom.material.texture.finish.diffuse
                             * shade;
-                    radiance.addeq(geom.material.texture.pigment
-                            .getColor(intersectionPoint).mult(diffuse)
-                            .multeq(light.color));
+                    radiance.addeq(pigment.mult(diffuse).multeq(light.color));
                 }
             }
         }
@@ -130,8 +126,7 @@ class Renderer
             Color reflectionColor = trace(reflectionRay, depth + 1);
             radiance.addeq(reflectionColor
                     .mult(geom.material.texture.finish.reflection)
-                    .multeq(geom.material.texture.pigment
-                                    .getColor(intersectionPoint)));
+                    .multeq(pigment));
         }
 
         return radiance;
