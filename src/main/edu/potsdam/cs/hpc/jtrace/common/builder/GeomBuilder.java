@@ -1,7 +1,7 @@
 package edu.potsdam.cs.hpc.jtrace.common.builder;
 
-import edu.potsdam.cs.hpc.jtrace.common.Color;
 import edu.potsdam.cs.hpc.jtrace.common.Geom;
+import edu.potsdam.cs.hpc.jtrace.common.color.Color;
 import edu.potsdam.cs.hpc.jtrace.common.material.Material;
 import edu.potsdam.cs.hpc.jtrace.common.primitive.Primitive;
 

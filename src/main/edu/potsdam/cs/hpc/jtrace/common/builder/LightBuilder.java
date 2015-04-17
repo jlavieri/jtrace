@@ -1,7 +1,7 @@
 package edu.potsdam.cs.hpc.jtrace.common.builder;
 
-import edu.potsdam.cs.hpc.jtrace.common.Color;
 import edu.potsdam.cs.hpc.jtrace.common.Vec3;
+import edu.potsdam.cs.hpc.jtrace.common.color.Color;
 import edu.potsdam.cs.hpc.jtrace.common.light.Light;
 import edu.potsdam.cs.hpc.jtrace.common.light.PointLight;
 

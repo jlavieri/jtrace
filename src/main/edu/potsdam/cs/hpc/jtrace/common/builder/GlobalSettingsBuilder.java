@@ -1,7 +1,7 @@
 package edu.potsdam.cs.hpc.jtrace.common.builder;
 
-import edu.potsdam.cs.hpc.jtrace.common.Color;
 import edu.potsdam.cs.hpc.jtrace.common.GlobalSettings;
+import edu.potsdam.cs.hpc.jtrace.common.color.Color;
 
 public class GlobalSettingsBuilder
 {

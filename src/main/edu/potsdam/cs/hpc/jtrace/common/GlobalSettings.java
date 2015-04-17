@@ -1,5 +1,7 @@
 package edu.potsdam.cs.hpc.jtrace.common;
 
+import edu.potsdam.cs.hpc.jtrace.common.color.Color;
+
 public class GlobalSettings
 {
     public final Color background;

@@ -1,4 +1,4 @@
-package edu.potsdam.cs.hpc.jtrace.common;
+package edu.potsdam.cs.hpc.jtrace.common.color;
 
 public class Color
 {
