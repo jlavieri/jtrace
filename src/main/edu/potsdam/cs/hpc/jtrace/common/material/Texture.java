@@ -1,5 +1,7 @@
 package edu.potsdam.cs.hpc.jtrace.common.material;
 
+import edu.potsdam.cs.hpc.jtrace.common.material.pigment.Pigment;
+
 public class Texture
 {
     public final Pigment pigment;

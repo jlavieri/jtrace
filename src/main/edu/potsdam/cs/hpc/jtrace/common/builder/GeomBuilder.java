@@ -50,8 +50,6 @@ public class GeomBuilder
         Color quick;
         if (quickColor != null)
             quick = quickColor;
-        else if (material.texture.pigment.color != null)
-            quick = material.texture.pigment.color;
         else
             quick = DEFAULT_QUICK_COLOR;
         

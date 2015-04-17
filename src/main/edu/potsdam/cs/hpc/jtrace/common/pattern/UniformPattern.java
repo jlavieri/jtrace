@@ -2,7 +2,7 @@ package edu.potsdam.cs.hpc.jtrace.common.pattern;
 
 import edu.potsdam.cs.hpc.jtrace.common.Vec3;
 
-public class Uniform implements Pattern
+public class UniformPattern implements Pattern
 {
     @Override
     public double evaluate (Vec3 v)

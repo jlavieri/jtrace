@@ -6,7 +6,7 @@ import java.util.TreeMap;
 
 public class ColorMap
 {
-    NavigableMap<Double, Color> map = new TreeMap<>();
+    private final NavigableMap<Double, Color> map = new TreeMap<>();
 
     public void put (Double d, Color c)
     {

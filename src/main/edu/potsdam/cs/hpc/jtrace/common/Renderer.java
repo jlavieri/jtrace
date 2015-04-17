@@ -113,23 +113,25 @@ class Renderer
                 if (dot > 0) {
                     double diffuse = dot * geom.material.texture.finish.diffuse
                             * shade;
-                    radiance.addeq(geom.material.texture.pigment.color
-                            .mult(diffuse).multeq(light.color));
+                    radiance.addeq(geom.material.texture.pigment
+                            .getColor(intersectionPoint).mult(diffuse)
+                            .multeq(light.color));
                 }
             }
         }
 
         // Reflection
-        if (geom.material.texture.finish.reflection > 0.0d
-                && depth < MAX_DEPTH) {
+        if (geom.material.texture.finish.reflection > 0.0d && depth < MAX_DEPTH) {
             Vec3 reflectionDirection = intersectionNorm
                     .mul(2.0d * ray.direction.dot(intersectionNorm))
                     .directionTo(ray.direction);
             Ray reflectionRay = new Ray(intersectionPoint, reflectionDirection);
             reflectionRayCount++;
             Color reflectionColor = trace(reflectionRay, depth + 1);
-            radiance.addeq(reflectionColor.mult(geom.material.texture.finish.reflection)
-                          .multeq(geom.material.texture.pigment.color));
+            radiance.addeq(reflectionColor
+                    .mult(geom.material.texture.finish.reflection)
+                    .multeq(geom.material.texture.pigment
+                                    .getColor(intersectionPoint)));
         }
 
         return radiance;

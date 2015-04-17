@@ -2,8 +2,8 @@ package edu.potsdam.cs.hpc.jtrace.common.builder;
 
 import edu.potsdam.cs.hpc.jtrace.common.color.Color;
 import edu.potsdam.cs.hpc.jtrace.common.material.Finish;
-import edu.potsdam.cs.hpc.jtrace.common.material.Pigment;
 import edu.potsdam.cs.hpc.jtrace.common.material.Texture;
+import edu.potsdam.cs.hpc.jtrace.common.material.pigment.Pigment;
 
 public class TextureBuilder
 {
@@ -22,9 +22,14 @@ public class TextureBuilder
         this.mb = mb;
     }
 
+    public PigmentBuilder pigment()
+    {
+        return new PigmentBuilder(this);
+    }
+    
     public TextureBuilder pigment(Color color)
     {
-        pigment = new Pigment(color);
+        new PigmentBuilder(this).color(color).end();
         return this;
     }
 
