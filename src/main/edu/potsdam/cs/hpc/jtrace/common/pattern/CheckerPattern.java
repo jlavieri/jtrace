@@ -7,6 +7,11 @@ public class CheckerPattern implements ListPattern
     @Override
     public int evaluate (Vec3 v)
     {
-        return (int)v.x % 2 & (int)v.y % 2 & (int)v.z % 2;
+        return (mod(v.x) + mod(v.y) + mod(v.z)) % 2;
+    }
+    
+    private static int mod (double x)
+    {
+        return ((int)Math.round(x + 0.5000000000000004d) % 2 + 2) % 2;
     }
 }
