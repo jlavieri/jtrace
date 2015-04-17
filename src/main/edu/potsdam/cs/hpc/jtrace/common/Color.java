@@ -1,10 +1,5 @@
 package edu.potsdam.cs.hpc.jtrace.common;
 
-/**
- * @author jlavieri
- * @version 2015-03-11
- * @since 2012-03-15
- */
 public class Color
 {
     public static final Color
@@ -89,9 +84,36 @@ public class Color
         return new Color(r + c.r, g + c.g, b + c.b, f + c.f, t + c.t);
     }
 
-    Color mult(double d)
+    /**
+     * Calculates a new color product of this color multicand and a given scalar
+     * multiplier.
+     * 
+     * @param d
+     *            The scalar multiplier.
+     * @return A new color product of this color multicand and the scalar
+     *         multiplier.
+     */
+    public Color mult (double d)
     {
         return new Color(d * r, d * g, d * b, d * f, d * t);
+    }
+
+    /**
+     * Sets this color to the pointwise color product of this color multicand
+     * and another given color multiplier.
+     * 
+     * @param c
+     *            The color multiplier.
+     * @return This newly mutated color pointwise product.
+     */
+    public Color multeq (Color c)
+    {
+        r *= c.r;
+        g *= c.g;
+        b *= c.b;
+        f *= c.f;
+        t *= c.t;
+        return this;
     }
 
     Color sadd(Color c)
@@ -101,16 +123,6 @@ public class Color
         b += c.b;
         f += c.f;
         t += c.t;
-        return this;
-    }
-    
-    Color smult(Color c)
-    {
-        r *= c.r;
-        g *= c.g;
-        b *= c.b;
-        f *= c.f;
-        t *= c.t;
         return this;
     }
 

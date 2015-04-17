@@ -6,7 +6,6 @@ import edu.potsdam.cs.hpc.jtrace.common.scenes.*;
  * The traditional reflective sphere over checkered plane.
  * 
  * @author  jlavieri
- * @version 2015-03-24
  * @since   2015-03-25
  */
 public class RsocpScene implements SceneDescription

@@ -113,7 +113,7 @@ class Renderer
                     double diffuse = dot * geom.material.texture.finish.diffuse
                             * shade;
                     radiance.sadd(geom.material.texture.pigment.color
-                            .mult(diffuse).smult(light.color));
+                            .mult(diffuse).multeq(light.color));
                 }
             }
         }
@@ -128,7 +128,7 @@ class Renderer
             reflectionRayCount++;
             Color reflectionColor = trace(reflectionRay, depth + 1);
             radiance.sadd(reflectionColor.mult(geom.material.texture.finish.reflection)
-                          .smult(geom.material.texture.pigment.color));
+                          .multeq(geom.material.texture.pigment.color));
         }
 
         return radiance;
