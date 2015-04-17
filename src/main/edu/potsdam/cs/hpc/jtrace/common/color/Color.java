@@ -110,11 +110,12 @@ public class Color
     }
 
     /**
-     * Multiplies this color with a scalar and returns as a new color.
+     * Multiplies this color with a scalar and returns the product as a new
+     * color.
      * 
      * @param d
      *            The scalar multiplier.
-     * @return A new color product of this color and the scalar multplier.
+     * @return A new color product of this color and the scalar multiplier.
      */
     public Color mult (double d)
     {
@@ -137,6 +138,22 @@ public class Color
         f *= c.f;
         t *= c.t;
         return this;
+    }
+    
+    
+    /**
+     * Lerps this color with another color and returns the result as a new
+     * color.
+     * 
+     * @param c
+     *            The color lerprahend.
+     * @param t
+     *            The linear parameter in [0,1].
+     * @return The lerp of this color with the other color.
+     */
+    public Color lerp (Color c, double t)
+    {
+        return mult(1.0d - t).addeq(c.mult(t));
     }
 
     /**
