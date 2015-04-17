@@ -4,7 +4,7 @@ import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
-public class ColorMap
+public class ColorMap implements IColor
 {
     private final NavigableMap<Double, Color> map = new TreeMap<>();
 

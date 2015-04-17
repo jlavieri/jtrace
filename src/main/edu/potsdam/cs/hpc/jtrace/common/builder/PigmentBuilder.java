@@ -1,10 +1,15 @@
 package edu.potsdam.cs.hpc.jtrace.common.builder;
 
 import edu.potsdam.cs.hpc.jtrace.common.color.Color;
+import edu.potsdam.cs.hpc.jtrace.common.color.ColorList;
 import edu.potsdam.cs.hpc.jtrace.common.color.ColorMap;
-import edu.potsdam.cs.hpc.jtrace.common.material.pigment.ColorMappedPatternPigment;
+import edu.potsdam.cs.hpc.jtrace.common.color.IColor;
+import edu.potsdam.cs.hpc.jtrace.common.material.pigment.ListPatternPigment;
+import edu.potsdam.cs.hpc.jtrace.common.material.pigment.MapPatternPigment;
 import edu.potsdam.cs.hpc.jtrace.common.material.pigment.Pigment;
 import edu.potsdam.cs.hpc.jtrace.common.material.pigment.SolidColorPigment;
+import edu.potsdam.cs.hpc.jtrace.common.pattern.ListPattern;
+import edu.potsdam.cs.hpc.jtrace.common.pattern.MapPattern;
 import edu.potsdam.cs.hpc.jtrace.common.pattern.Pattern;
 
 public class PigmentBuilder
@@ -15,8 +20,7 @@ public class PigmentBuilder
 
     private final TextureBuilder tb;
 
-    private Color color = DEFAULT_COLOR;
-    private ColorMap colorMap;
+    private IColor color = DEFAULT_COLOR;
     private Pattern pattern;
 
     public PigmentBuilder (TextureBuilder tb)
@@ -24,13 +28,7 @@ public class PigmentBuilder
         this.tb = tb;
     }
 
-    public PigmentBuilder colorMap (ColorMap colorMap)
-    {
-        this.colorMap = colorMap;
-        return this;
-    }
-
-    public PigmentBuilder color (Color color)
+    public PigmentBuilder color (IColor color)
     {
         this.color = color;
         return this;
@@ -44,10 +42,16 @@ public class PigmentBuilder
 
     public TextureBuilder end ()
     {
-        if (colorMap != null && pattern != null)
-            tb.pigment = new ColorMappedPatternPigment(colorMap, pattern);
-        else
-            tb.pigment = new SolidColorPigment(color);
+        if (color != null && pattern != null) {
+            if (color instanceof ColorMap && pattern instanceof MapPattern)
+                tb.pigment = new MapPatternPigment((ColorMap) color,
+                        (MapPattern) pattern);
+            else if (color instanceof ColorList
+                    && pattern instanceof ListPattern)
+                tb.pigment = new ListPatternPigment((ColorList) color,
+                        (ListPattern) pattern);
+        } else if (color instanceof Color)
+            tb.pigment = new SolidColorPigment((Color) color);
         return tb;
     }
 }

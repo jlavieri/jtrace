@@ -1,6 +1,6 @@
 package edu.potsdam.cs.hpc.jtrace.common.color;
 
-public class Color
+public class Color implements IColor
 {
     public static final Color
         BLACK = new Color(),
