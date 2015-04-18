@@ -16,6 +16,8 @@ class Renderer
     private static final int MAX_DEPTH = 5;
     private static final double ADC_BAILOUT = 1D / 255D;
     private static final double MAX_DIS = 1E10D;
+    
+    private static final double SPECULAR_POWER = 21.0d;
 
     private final Scene scene;
     private final RenderSettings renderSettings;
@@ -121,7 +123,7 @@ class Renderer
                 double rayReflection = ray.direction.dot(pointToLight
                         .reflect(intersectionNormal, normDotLight));
                 if (rayReflection > 0) {
-                    double specular = Math.pow(rayReflection, 20.0d)
+                    double specular = Math.pow(rayReflection, SPECULAR_POWER)
                             * geom.material.texture.finish.specular * shade;
                     radiance.addeq(light.color.mult(specular));
                 }
