@@ -1,6 +1,6 @@
 package edu.potsdam.cs.hpc.jtrace.common;
 
-import edu.potsdam.cs.hpc.jtrace.common.builder.RenderSettingsBuilder;
+import edu.potsdam.cs.hpc.jtrace.common.sdl.RenderSettingsBuilder;
 
 /**
  * JTrace.

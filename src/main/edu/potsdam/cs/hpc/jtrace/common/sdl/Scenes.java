@@ -13,7 +13,6 @@ import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 
 import edu.potsdam.cs.hpc.jtrace.common.Scene;
-import edu.potsdam.cs.hpc.jtrace.common.builder.SceneBuilder;
 
 public class Scenes
 {

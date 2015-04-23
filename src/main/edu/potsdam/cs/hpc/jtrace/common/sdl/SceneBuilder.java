@@ -1,4 +1,4 @@
-package edu.potsdam.cs.hpc.jtrace.common.builder;
+package edu.potsdam.cs.hpc.jtrace.common.sdl;
 
 import java.util.ArrayList;
 import java.util.List;

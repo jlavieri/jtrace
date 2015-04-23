@@ -1,7 +1,6 @@
 package edu.potsdam.cs.hpc.jtrace.common.sdl;
 
 import edu.potsdam.cs.hpc.jtrace.common.Vec3;
-import edu.potsdam.cs.hpc.jtrace.common.builder.SceneBuilder;
 import edu.potsdam.cs.hpc.jtrace.common.color.Color;
 
 public class TestScene implements SceneDescription
