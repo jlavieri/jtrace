@@ -1,4 +1,4 @@
-package edu.potsdam.cs.hpc.jtrace.common.scenes;
+package edu.potsdam.cs.hpc.jtrace.common.sdl;
 
 import edu.potsdam.cs.hpc.jtrace.common.builder.SceneBuilder;
 

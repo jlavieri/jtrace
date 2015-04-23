@@ -1,4 +1,4 @@
-package edu.potsdam.cs.hpc.jtrace.common.scenes;
+package edu.potsdam.cs.hpc.jtrace.common.sdl;
 
 import java.io.File;
 import java.net.MalformedURLException;

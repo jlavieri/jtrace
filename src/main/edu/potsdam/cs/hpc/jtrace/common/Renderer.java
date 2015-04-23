@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 import edu.potsdam.cs.hpc.jtrace.common.color.Color;
 import edu.potsdam.cs.hpc.jtrace.common.light.Light;
-import edu.potsdam.cs.hpc.jtrace.common.scenes.Scenes;
+import edu.potsdam.cs.hpc.jtrace.common.sdl.Scenes;
 
 class Renderer
 {
