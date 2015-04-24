@@ -11,39 +11,17 @@ public class FinishBuilder
     static final Finish DEFAULT = new Finish(DEFAULT_DIFFUSE,
             DEFAULT_REFLECTION, DEFAULT_SPECULAR);
 
-    private final TextureBuilder tb;
-
     private double diffuse = DEFAULT_DIFFUSE;
     private double reflection = DEFAULT_REFLECTION;
     private double specular = DEFAULT_SPECULAR;
 
-    public FinishBuilder (TextureBuilder tb)
+    void setDiffuse (Diffuse diffuse)
     {
-        this.tb = tb;
+        this.diffuse = diffuse.d;
     }
 
-    public FinishBuilder diffuse (double diffuse)
+    Finish eval ()
     {
-        this.diffuse = diffuse;
-        return this;
+        return new Finish(diffuse, reflection, specular);
     }
-
-    public FinishBuilder reflection (double reflection)
-    {
-        this.reflection = reflection;
-        return this;
-    }
-
-    public FinishBuilder specular (double specular)
-    {
-        this.specular = specular;
-        return this;
-    }
-
-    public TextureBuilder end ()
-    {
-        tb.finish = new Finish(diffuse, reflection, specular);
-        return tb;
-    }
-
 }
