@@ -4,57 +4,47 @@ import edu.potsdam.cs.hpc.jtrace.common.Vec3;
 import edu.potsdam.cs.hpc.jtrace.common.color.Color;
 import edu.potsdam.cs.hpc.jtrace.common.light.Light;
 import edu.potsdam.cs.hpc.jtrace.common.light.PointLight;
+import edu.potsdam.cs.hpc.jtrace.common.sdl.SceneDescription.LightType;
 
-public class LightBuilder
+final class LightBuilder extends SceneScopeBuilder
 {
-    private static final LightType DEFAULT_TYPE = LightType.POINT;
+    private static final LightType DEFAULT_TYPE = LightType.point;
     private static final Vec3 DEFAULT_POSITION = Vec3.O;
     private static final Color DEFAULT_COLOR = Color.WHITE;
-
-    private final SceneBuilder sb;
 
     private LightType type = DEFAULT_TYPE;
     private Vec3 position = DEFAULT_POSITION;
     private Color color = DEFAULT_COLOR;
-
-    private enum LightType
-    {
-        POINT
-    }
     
     public LightBuilder(SceneBuilder sb)
     {
-        this.sb = sb;
+        super(sb);
     }
 
-    public LightBuilder point()
+    void setType (LightType type)
     {
-        type = LightType.POINT;
-        return this;
+        this.type = type;
     }
 
-    public LightBuilder position(double x, double y, double z)
+    void setPosition (Position position)
     {
-        position = new Vec3(x, y, z);
-        return this;
+        this.position = position.vec;
     }
 
-    public LightBuilder color(Color color)
+    void setColor (ColorType color)
     {
-        this.color = color;
-        return this;
+        this.color = color.color;
     }
 
-    public SceneBuilder end()
+    @Override
+    void apply ()
     {
         Light light;
         switch (type) {
-        case POINT:
+        case point:
         default:
             light = new PointLight(position, color);
         }
         sb.lights.add(light);
-        return sb;
     }
-
 }
