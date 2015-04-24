@@ -53,7 +53,7 @@ public class GeomBuilder
         else
             quick = DEFAULT_QUICK_COLOR;
         
-        sb.geoms.add(new Geom(primitive, material, quick));
+        sb.addGeom(new Geom(primitive, material, quick));
         return sb;
     }
 

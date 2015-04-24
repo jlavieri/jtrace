@@ -16,30 +16,30 @@ final class GlobalSettingsBuilder extends SceneScopeBuilder
     private Color ambientLight = Color.BLACK;
     private boolean useQuickColor = false;
 
-    GlobalSettingsBuilder(SceneBuilder sb)
+    GlobalSettingsBuilder (SceneBuilder sb)
     {
         super(sb);
     }
 
-    void setBackground(BackgroundColor background)
+    void setBackground (BackgroundColor background)
     {
         this.background = background.color;
     }
 
-    void setAmbientLight(AmbientLightColor ambientLight)
+    void setAmbientLight (AmbientLightColor ambientLight)
     {
         this.ambientLight = ambientLight.color;
     }
 
-    void useQuickColor(UseQuickColor tok)
+    void useQuickColor (UseQuickColor tok)
     {
         this.useQuickColor = tok.bool;
     }
 
     @Override
-    void apply()
+    void apply ()
     {
-        sb.globalSettings = new GlobalSettings(background, ambientLight,
-                useQuickColor);
+        sb.setGlobalSettings(new GlobalSettings(background, ambientLight,
+                useQuickColor));
     }
 }
