@@ -1,6 +1,6 @@
 package edu.potsdam.cs.hpc.jtrace.common.sdl;
 
-enum Projection
+public enum Projection
 {
     perspective
 }

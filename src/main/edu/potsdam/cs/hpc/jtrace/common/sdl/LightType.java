@@ -1,6 +1,6 @@
 package edu.potsdam.cs.hpc.jtrace.common.sdl;
 
-enum LightType
+public enum LightType
 {
     point
 }
