@@ -18,55 +18,33 @@ public class PigmentBuilder
 
     static final Pigment DEFAULT = new SolidColorPigment(DEFAULT_COLOR);
 
-    private final TextureBuilder tb;
-
     private IColor color = DEFAULT_COLOR;
-    private Pattern pattern;
+    private Pattern pattern = null;
 
-    public PigmentBuilder (TextureBuilder tb)
-    {
-        this.tb = tb;
-    }
-
-    public PigmentBuilder color (IColor color)
+    PigmentBuilder () {}
+    
+    void setColor (IColor color)
     {
         this.color = color;
-        return this;
     }
 
-    public PigmentBuilder pattern (Pattern pattern)
+    void setPattern (Pattern pattern)
     {
         this.pattern = pattern;
-        return this;
-    }
-    
-    public PigmentBuilder checker ()
-    {
-        pattern = PatternBuilder.CHECKER;
-        return this;
-    }
-    
-    public PigmentBuilder colors (Color ... colors)
-    {
-       ColorList colorList = new ColorList();
-       for (Color color : colors)
-           colorList.add(color);
-       color = colorList;
-       return this;
     }
 
-    public TextureBuilder end ()
+    Pigment eval ()
     {
         if (color != null && pattern != null) {
             if (color instanceof ColorMap && pattern instanceof MapPattern)
-                tb.pigment = new MapPatternPigment((ColorMap) color,
-                        (MapPattern) pattern);
+                return new MapPatternPigment((ColorMap) color,
+                                             (MapPattern) pattern);
             else if (color instanceof ColorList
                     && pattern instanceof ListPattern)
-                tb.pigment = new ListPatternPigment((ColorList) color,
+                return new ListPatternPigment((ColorList) color,
                         (ListPattern) pattern);
         } else if (color instanceof Color)
-            tb.pigment = new SolidColorPigment((Color) color);
-        return tb;
+            return new SolidColorPigment((Color) color);
+        return DEFAULT;
     }
 }
