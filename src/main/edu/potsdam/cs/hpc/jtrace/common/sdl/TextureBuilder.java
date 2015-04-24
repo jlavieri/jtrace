@@ -1,6 +1,5 @@
 package edu.potsdam.cs.hpc.jtrace.common.sdl;
 
-import edu.potsdam.cs.hpc.jtrace.common.color.Color;
 import edu.potsdam.cs.hpc.jtrace.common.material.Finish;
 import edu.potsdam.cs.hpc.jtrace.common.material.Texture;
 import edu.potsdam.cs.hpc.jtrace.common.material.pigment.Pigment;
@@ -12,36 +11,22 @@ public class TextureBuilder
 
     static final Texture DEFAULT = new Texture(DEFAULT_PIGMENT, DEFAULT_FINISH);
 
-    private final MaterialBuilder mb;
+    private Pigment pigment = DEFAULT_PIGMENT;
+    private Finish finish = DEFAULT_FINISH;
 
-    Pigment pigment = DEFAULT_PIGMENT;
-    Finish finish = DEFAULT_FINISH;
-
-    public TextureBuilder(MaterialBuilder mb)
+    void setPigment (PigmentBuilder pigment)
     {
-        this.mb = mb;
+        this.pigment = pigment.eval();
     }
 
-    public PigmentBuilder pigment()
+    void setFinish (FinishBuilder finish)
     {
-        return new PigmentBuilder(this);
-    }
-    
-    public TextureBuilder pigment(Color color)
-    {
-        new PigmentBuilder(this).setColor(color).end();
-        return this;
+        this.finish = finish.eval();
     }
 
-    public FinishBuilder finish()
+    Texture eval ()
     {
-        return new FinishBuilder(this);
-    }
-
-    public MaterialBuilder end()
-    {
-        mb.texture = new Texture(pigment, finish);
-        return mb;
+        return new Texture(pigment, finish);
     }
 
 }

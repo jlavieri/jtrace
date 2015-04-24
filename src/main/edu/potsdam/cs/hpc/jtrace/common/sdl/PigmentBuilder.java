@@ -28,9 +28,9 @@ public class PigmentBuilder
         this.color = color;
     }
 
-    void setPattern (Pattern pattern)
+    void setPattern (PatternType pattern)
     {
-        this.pattern = pattern;
+        this.pattern = pattern.pattern;
     }
 
     Pigment eval ()

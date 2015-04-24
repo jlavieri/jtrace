@@ -3,7 +3,6 @@ package edu.potsdam.cs.hpc.jtrace.common.sdl;
 import edu.potsdam.cs.hpc.jtrace.common.Vec3;
 import edu.potsdam.cs.hpc.jtrace.common.camera.Camera;
 import edu.potsdam.cs.hpc.jtrace.common.camera.PerspectiveCamera;
-import edu.potsdam.cs.hpc.jtrace.common.sdl.SceneDescription.Projection;
 
 final class CameraBuilder extends SceneScopeBuilder
 {
