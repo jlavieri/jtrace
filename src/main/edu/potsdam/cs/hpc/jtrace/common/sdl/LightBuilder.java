@@ -31,7 +31,7 @@ final class LightBuilder extends SceneScopeBuilder
         this.position = position.vec;
     }
 
-    void setColor (ColorType color)
+    void setColor (ColorVal color)
     {
         this.color = color.color;
     }

@@ -2,11 +2,11 @@ package edu.potsdam.cs.hpc.jtrace.common.sdl;
 
 import edu.potsdam.cs.hpc.jtrace.common.color.Color;
 
-class ColorType
+class ColorVal
 {
     Color color;
     
-    ColorType (Color color)
+    ColorVal (Color color)
     {
         this.color = color;
     }

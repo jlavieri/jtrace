@@ -29,7 +29,7 @@ public class TextureBuilder
     
     public TextureBuilder pigment(Color color)
     {
-        new PigmentBuilder(this).color(color).end();
+        new PigmentBuilder(this).setColor(color).end();
         return this;
     }
 
