@@ -5,7 +5,7 @@ import edu.potsdam.cs.hpc.jtrace.common.material.Texture;
 
 final class SkySphereBuilder extends SceneScopeBuilder
 {
-    Texture texture = TextureBuilder.DEFAULT;
+    private Texture texture = TextureBuilder.DEFAULT;
     
     SkySphereBuilder (SceneBuilder sb)
     {

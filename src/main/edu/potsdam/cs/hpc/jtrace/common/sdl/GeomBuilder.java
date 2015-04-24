@@ -5,56 +5,48 @@ import edu.potsdam.cs.hpc.jtrace.common.color.Color;
 import edu.potsdam.cs.hpc.jtrace.common.material.Material;
 import edu.potsdam.cs.hpc.jtrace.common.primitive.Primitive;
 
-public class GeomBuilder
+final class GeomBuilder extends SceneScopeBuilder
 {
     private static final Material DEFAULT_MATERIAL = MaterialBuilder.DEFAULT;
     private static final Color DEFAULT_QUICK_COLOR = Color.BLACK;
 
-    private final SceneBuilder sb;
-
-    Primitive primitive; // Primitive is required for geom.
-    Material material = DEFAULT_MATERIAL;
+    private Primitive primitive; // Primitive is required for geom.
+    private Material material = DEFAULT_MATERIAL;
     private Color quickColor; // Default logic in GeomBuilder.end().
 
-    public GeomBuilder(SceneBuilder sb)
+    public GeomBuilder (SceneBuilder sb)
     {
-        this.sb = sb;
+        super(sb);
     }
 
-    public PlaneBuilder plane()
+    void setQuickColor (QuickColor quickColor)
     {
-        return new PlaneBuilder(this);
+        this.quickColor = quickColor.color;
     }
 
-    public SphereBuilder sphere()
+    void setPrimitive (PrimitiveBuilder primitive)
     {
-        return new SphereBuilder(this);
+        this.primitive = primitive.eval();
     }
 
-    public MaterialBuilder material()
+    void setMaterial (MaterialBuilder material)
     {
-        return new MaterialBuilder(this);
+        this.material = material.eval();
     }
 
-    public GeomBuilder quickColor(Color quickColor)
-    {
-        this.quickColor = quickColor;
-        return this;
-    }
-
-    public SceneBuilder end()
+    @Override
+    void apply ()
     {
         if (primitive == null)
             throw new IllegalStateException("Geom has no primitive set.");
-        
+
         Color quick;
         if (quickColor != null)
             quick = quickColor;
         else
             quick = DEFAULT_QUICK_COLOR;
-        
+
         sb.addGeom(new Geom(primitive, material, quick));
-        return sb;
     }
 
 }
