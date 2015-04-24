@@ -3,10 +3,11 @@ package edu.potsdam.cs.hpc.jtrace.common.sdl;
 import edu.potsdam.cs.hpc.jtrace.common.Vec3;
 import edu.potsdam.cs.hpc.jtrace.common.camera.Camera;
 import edu.potsdam.cs.hpc.jtrace.common.camera.PerspectiveCamera;
+import edu.potsdam.cs.hpc.jtrace.common.sdl.SceneDescription.Projection;
 
-public class CameraBuilder
+final class CameraBuilder extends SceneScopeBuilder
 {
-    private static final Projection DEFAULT_PROJECTION = Projection.PERSPECTIVE;
+    private static final Projection DEFAULT_PROJECTION = Projection.perspective;
     private static final Vec3 DEFAULT_POSITION = Vec3.O;
     private static final Vec3 DEFAULT_LOOK_AT = Vec3.Z;
     private static final Vec3 DEFAULT_UP = Vec3.Y;
@@ -15,57 +16,42 @@ public class CameraBuilder
     static final Camera DEFAULT = new PerspectiveCamera(DEFAULT_POSITION,
             DEFAULT_LOOK_AT, DEFAULT_UP, DEFAULT_FOV);
 
-    private final SceneBuilder sb;
-
     private Projection projection = DEFAULT_PROJECTION;
     private Vec3 position = DEFAULT_POSITION;
     private Vec3 lookAt = DEFAULT_LOOK_AT;
     private Vec3 up = DEFAULT_UP;
     private double fov = DEFAULT_FOV;
 
-    public CameraBuilder(SceneBuilder sb)
+    CameraBuilder(SceneBuilder sb)
     {
-        this.sb = sb;
+        super(sb);
     }
 
-    public CameraBuilder perspective()
+    void setProjection(Projection projection)
     {
-        projection = Projection.PERSPECTIVE;
-        return this;
+        this.projection = projection;
     }
 
-    private enum Projection {
-        PERSPECTIVE
-    }
-
-    public CameraBuilder position(double x, double y, double z)
+    void setPosition(Position position)
     {
-        position = new Vec3(x, y, z);
-        return this;
+        this.position = position.vec;
     }
 
-    public CameraBuilder lookAt(double x, double y, double z)
+    void setLookAt(LookAt lookAt)
     {
-        lookAt = new Vec3(x, y, z);
-        return this;
+        this.lookAt = lookAt.vec;
     }
 
-    public CameraBuilder lookAt(Vec3 lookAt)
-    {
-        this.lookAt = lookAt;
-        return this;
-    }
-
-    public SceneBuilder end()
+    @Override
+    void apply ()
     {
         Camera c;
         switch (projection) {
-        case PERSPECTIVE:
+        case perspective:
         default:
             c = new PerspectiveCamera(position, lookAt, up, fov);
         }
         sb.camera = c;
-        return sb;
     }
 
 }
