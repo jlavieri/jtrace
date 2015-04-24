@@ -9,24 +9,15 @@ public class MaterialBuilder
 
     static final Material DEFAULT = new Material(DEFAULT_TEXTURE);
 
-    private final GeomBuilder gb;
+    private Texture texture = DEFAULT_TEXTURE;
 
-    Texture texture = DEFAULT_TEXTURE;
-
-    public MaterialBuilder(GeomBuilder gb)
+    void setTexture (TextureBuilder texture)
     {
-        this.gb = gb;
+        this.texture = texture.eval();
     }
 
-    public TextureBuilder texture()
+    Material eval ()
     {
-        return new TextureBuilder(this);
+        return new Material(texture);
     }
-
-    public GeomBuilder end()
-    {
-        gb.material = new Material(texture);
-        return gb;
-    }
-
 }
