@@ -5,7 +5,7 @@ package edu.potsdam.cs.hpc.jtrace.common;
  *
  * @author lavierijp
  */
-public class Vec3
+public final class Vec3
 {
     /** Positive X unit vector. */
     public static final Vec3 X = new Vec3(1d, 0d, 0d);
