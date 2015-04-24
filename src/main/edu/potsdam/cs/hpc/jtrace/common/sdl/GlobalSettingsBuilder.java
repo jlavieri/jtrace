@@ -18,33 +18,29 @@ public class GlobalSettingsBuilder
     private Color ambientLight = Color.BLACK;
     private boolean useQuickColor = false;
 
-    public GlobalSettingsBuilder(SceneBuilder sb)
+    GlobalSettingsBuilder(SceneBuilder sb)
     {
         this.sb = sb;
     }
 
-    public GlobalSettingsBuilder backGround(Color background)
+    void setBackground(BackgroundColor background)
     {
-        this.background = background;
-        return this;
+        this.background = background.color;
     }
 
-    public GlobalSettingsBuilder ambientLight(Color ambientLight)
+    void setAmbientLight(AmbientLightColor ambientLight)
     {
-        this.ambientLight = ambientLight;
-        return this;
+        this.ambientLight = ambientLight.color;
     }
 
-    public GlobalSettingsBuilder quickColor(boolean useQuickColor)
+    void useQuickColor(UseQuickColor tok)
     {
-        this.useQuickColor = useQuickColor;
-        return this;
+        this.useQuickColor = tok.bool;
     }
 
-    public SceneBuilder end()
+    void apply()
     {
         sb.globalSettings = new GlobalSettings(background, ambientLight,
                 useQuickColor);
-        return sb;
     }
 }
