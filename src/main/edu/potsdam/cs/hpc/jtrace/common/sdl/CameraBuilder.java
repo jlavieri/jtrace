@@ -51,7 +51,7 @@ final class CameraBuilder extends SceneScopeBuilder
         default:
             c = new PerspectiveCamera(position, lookAt, up, fov);
         }
-        sb.camera = c;
+        sb.setCamera(c);
     }
 
 }

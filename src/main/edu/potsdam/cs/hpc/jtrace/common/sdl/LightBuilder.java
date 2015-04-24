@@ -45,6 +45,6 @@ final class LightBuilder extends SceneScopeBuilder
         default:
             light = new PointLight(position, color);
         }
-        sb.lights.add(light);
+        sb.addLight(light);
     }
 }
