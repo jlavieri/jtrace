@@ -20,4 +20,19 @@ public class Scene
         this.lights = lights;
         this.geoms = geoms;
     }
+    
+    @Override
+    public String toString ()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Scene:\n").append(globalSettings.toString())
+        .append(camera).append(skySphere).append('\n')
+        .append("Lights:\n");
+        for (Light light : lights)
+            sb.append('\t').append(light).append('\n');
+        sb.append("Geoms:\n");
+        for (Geom geom : geoms)
+            sb.append('\t').append(geom).append('\n');
+        return sb.toString();
+    }
 }

@@ -14,6 +14,7 @@ class Renderer
 {
     // TODO move these to render settings or global settings
     private static final int MAX_DEPTH = 5;
+    @SuppressWarnings("unused")
     private static final double ADC_BAILOUT = 1D / 255D;
     private static final double MAX_DIS = 1E10D;
     
@@ -33,6 +34,7 @@ class Renderer
     public Renderer (RenderSettings renderSettings)
     {
         this.scene = Scenes.getSceneFromFile(renderSettings.inputFile);
+        System.out.println(scene);
         this.renderSettings = renderSettings;
         width = renderSettings.dimension.width;
         height = renderSettings.dimension.height;

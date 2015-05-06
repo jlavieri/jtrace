@@ -1,6 +1,6 @@
 package edu.potsdam.cs.hpc.jtrace.common.sdl;
 
-abstract class SceneScopeBuilder
+public abstract class SceneScopeBuilder
 {
     protected final SceneBuilder sb;
     
@@ -9,5 +9,5 @@ abstract class SceneScopeBuilder
         this.sb = sb;
     }
     
-    abstract void apply ();
+    public abstract void apply ();
 }

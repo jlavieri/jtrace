@@ -21,12 +21,8 @@ public class Scenes
     {
         Scene scene = null;
         try {
-            if (inputFile.toString().equals("TestScene")) {
-                TestScene testScene = new TestScene();
-                SceneBuilder sceneBuilder = new SceneBuilder();
-                testScene.getSceneDescription(sceneBuilder);
-                return sceneBuilder.getScene();
-            }
+            if (inputFile.toString().equals("TestScene"))
+                return new TestScene().getScene();
             JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
             String parentDirectory = inputFile.getParent();
             if (parentDirectory == null)
@@ -61,11 +57,7 @@ public class Scenes
             if (status != 0)
                 System.exit(status);
             Class<?> sceneClass = Class.forName(className, true, classLoader);
-            SceneDescription sceneDescription = (SceneDescription) sceneClass
-                    .newInstance();
-            SceneBuilder sb = new SceneBuilder();
-            sceneDescription.getSceneDescription(sb);
-            scene = sb.getScene();
+            scene = ((SceneDescription)sceneClass.newInstance()).getScene();
         } catch (SecurityException | ClassNotFoundException
                 | IllegalAccessException | IllegalArgumentException
                 | InstantiationException | MalformedURLException e) {

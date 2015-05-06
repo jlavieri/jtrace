@@ -3,7 +3,7 @@ package edu.potsdam.cs.hpc.jtrace.common.sdl;
 import edu.potsdam.cs.hpc.jtrace.common.GlobalSettings;
 import edu.potsdam.cs.hpc.jtrace.common.color.Color;
 
-final class GlobalSettingsBuilder extends SceneScopeBuilder
+public final class GlobalSettingsBuilder extends SceneScopeBuilder
 {
     private static final Color DEFAULT_BACKGROUND = Color.BLACK;
     private static final Color DEFAULT_AMBIENT_LIGHT = Color.BLACK;
@@ -37,7 +37,7 @@ final class GlobalSettingsBuilder extends SceneScopeBuilder
     }
 
     @Override
-    void apply ()
+    public void apply ()
     {
         sb.setGlobalSettings(new GlobalSettings(background, ambientLight,
                 useQuickColor));

@@ -3,7 +3,7 @@ package edu.potsdam.cs.hpc.jtrace.common.sdl;
 import edu.potsdam.cs.hpc.jtrace.common.SkySphere;
 import edu.potsdam.cs.hpc.jtrace.common.material.Texture;
 
-final class SkySphereBuilder extends SceneScopeBuilder
+public final class SkySphereBuilder extends SceneScopeBuilder
 {
     private Texture texture = TextureBuilder.DEFAULT;
     
@@ -18,7 +18,7 @@ final class SkySphereBuilder extends SceneScopeBuilder
     }
     
     @Override
-    void apply ()
+    public void apply ()
     {
         sb.setSkySphere(new SkySphere(texture));
     }

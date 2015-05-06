@@ -5,7 +5,7 @@ import edu.potsdam.cs.hpc.jtrace.common.color.Color;
 import edu.potsdam.cs.hpc.jtrace.common.light.Light;
 import edu.potsdam.cs.hpc.jtrace.common.light.PointLight;
 
-final class LightBuilder extends SceneScopeBuilder
+public final class LightBuilder extends SceneScopeBuilder
 {
     private static final LightType DEFAULT_TYPE = LightType.point;
     private static final Vec3 DEFAULT_POSITION = Vec3.O;
@@ -36,7 +36,7 @@ final class LightBuilder extends SceneScopeBuilder
     }
 
     @Override
-    void apply ()
+    public void apply ()
     {
         Light light;
         switch (type) {

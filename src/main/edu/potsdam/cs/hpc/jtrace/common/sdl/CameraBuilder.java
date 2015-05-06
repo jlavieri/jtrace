@@ -4,7 +4,7 @@ import edu.potsdam.cs.hpc.jtrace.common.Vec3;
 import edu.potsdam.cs.hpc.jtrace.common.camera.Camera;
 import edu.potsdam.cs.hpc.jtrace.common.camera.PerspectiveCamera;
 
-final class CameraBuilder extends SceneScopeBuilder
+public final class CameraBuilder extends SceneScopeBuilder
 {
     private static final Projection DEFAULT_PROJECTION = Projection.perspective;
     private static final Vec3 DEFAULT_POSITION = Vec3.O;
@@ -42,7 +42,7 @@ final class CameraBuilder extends SceneScopeBuilder
     }
 
     @Override
-    void apply ()
+    public void apply ()
     {
         Camera c;
         switch (projection) {

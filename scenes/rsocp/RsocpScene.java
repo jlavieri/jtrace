@@ -1,56 +1,75 @@
 import edu.potsdam.cs.hpc.jtrace.common.color.*;
-import edu.potsdam.cs.hpc.jtrace.common.builder.*;
-import edu.potsdam.cs.hpc.jtrace.common.scenes.*;
+
+
+import static edu.potsdam.cs.hpc.jtrace.common.Vec3.*;
+import static edu.potsdam.cs.hpc.jtrace.common.color.Color.*;
+import static edu.potsdam.cs.hpc.jtrace.common.sdl.LightType.*;
+import static edu.potsdam.cs.hpc.jtrace.common.sdl.PatternType.*;
+import static edu.potsdam.cs.hpc.jtrace.common.sdl.Projection.*;
+import edu.potsdam.cs.hpc.jtrace.common.Vec3;
+
+import edu.potsdam.cs.hpc.jtrace.common.sdl.*;
 
 /**
  * The traditional reflective sphere over checkered plane.
  * 
  * @author  jlavieri
- * @since   2015-03-25
+ * @since   2015-04-23
  */
-public class RsocpScene implements SceneDescription
+public class RsocpScene extends SceneDescription
 {
     @Override
-    public void getSceneDescription(SceneBuilder sb)
+    public void describeScene()
     {
-        sb
-        .globalSettings()
-            .ambientLight(Color.GREY10)
-        .end()
-        .camera()
-            .perspective()
-            .position(0, 1, -4)
-            .lookAt(0, 1, 0)
-        .end()
-        .light()
-            .point()
-            .position(3000, 3000, -3000)
-        .end()
-        .geom()
-            .plane()
-            .end()
-            .material()
-                .texture()
-                    .pigment()
-                        .checker()
-                        .colors(new Color[] { Color.BLACK, Color.WHITE })
-                    .end()
-                .end()
-            .end()
-        .end()
-        .geom()
-            .sphere()
-                .position(0, 1.35, 0)
-            .end()
-            .material()
-                .texture()
-                    .pigment(Color.BLUE)
-                    .finish()
-                        .reflection(0.4)
-                        .specular(0.6)
-                    .end()
-                .end()
-            .end()
-        .end();
+        globalSettings(
+            ambientLight(GREY10)
+        ).apply();
+        
+        camera(
+            perspective,
+            position(0, 1, -4),
+            lookAt(0, 1, 0)
+        ).apply();
+        
+        light(
+            point,
+            position(3000, 3000, -3000)
+        ).apply();
+        
+        skySphere(
+            texture (
+                pigment (
+                    checker,
+                    colorList(CHARTREUSE, VIOLET)
+                )
+            )
+        ).apply();
+        
+        geom(
+            plane(),
+            material(
+                texture(
+                    pigment(
+                        checker,
+                        colorList(Color.BLACK, Color.WHITE)
+                    )
+                )
+            )
+        ).apply();
+        
+        geom(
+            sphere(
+                position(0, 1.35, 0)
+            ),
+            material(
+                texture(
+                    pigment(BLUE),
+                    finish(
+                        reflection(0.4),
+                        specular(0.6)
+                    )
+                )
+            )
+        ).apply();
     }
 }

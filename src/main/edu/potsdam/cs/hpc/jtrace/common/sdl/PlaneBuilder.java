@@ -2,38 +2,30 @@ package edu.potsdam.cs.hpc.jtrace.common.sdl;
 
 import edu.potsdam.cs.hpc.jtrace.common.Vec3;
 import edu.potsdam.cs.hpc.jtrace.common.primitive.Plane;
+import edu.potsdam.cs.hpc.jtrace.common.primitive.Primitive;
 
-public class PlaneBuilder
+public class PlaneBuilder extends PrimitiveBuilder
 {
     private static final Vec3 DEFAULT_POSITION = Vec3.O;
     private static final Vec3 DEFAULT_NORMAL = Vec3.Y;
 
-    private final GeomBuilder gb;
-
     private Vec3 position = DEFAULT_POSITION;
     private Vec3 normal = DEFAULT_NORMAL;
 
-    public PlaneBuilder(GeomBuilder gb)
+    void setPosition(Position position)
     {
-        this.gb = gb;
+        this.position = position.vec;
     }
 
-    public PlaneBuilder position(Vec3 position)
+    void setNormal(Normal normal)
     {
-        this.position = position;
-        return this;
+        this.normal = normal.vec;
     }
 
-    public PlaneBuilder normal(Vec3 normal)
+    @Override
+    Primitive eval ()
     {
-        this.normal = normal;
-        return this;
-    }
-
-    public GeomBuilder end()
-    {
-        gb.primitive = new Plane(position, normal);
-        return gb;
+        return new Plane(position, normal);
     }
 
 }

@@ -5,7 +5,7 @@ import edu.potsdam.cs.hpc.jtrace.common.color.Color;
 import edu.potsdam.cs.hpc.jtrace.common.material.Material;
 import edu.potsdam.cs.hpc.jtrace.common.primitive.Primitive;
 
-final class GeomBuilder extends SceneScopeBuilder
+public final class GeomBuilder extends SceneScopeBuilder
 {
     private static final Material DEFAULT_MATERIAL = MaterialBuilder.DEFAULT;
     private static final Color DEFAULT_QUICK_COLOR = Color.BLACK;
@@ -35,7 +35,7 @@ final class GeomBuilder extends SceneScopeBuilder
     }
 
     @Override
-    void apply ()
+    public void apply ()
     {
         if (primitive == null)
             throw new IllegalStateException("Geom has no primitive set.");

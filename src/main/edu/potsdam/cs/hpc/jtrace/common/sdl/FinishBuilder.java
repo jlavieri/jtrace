@@ -19,6 +19,16 @@ public class FinishBuilder
     {
         this.diffuse = diffuse.d;
     }
+    
+    void setReflection(Reflection reflection)
+    {
+        this.reflection = reflection.d;
+    }
+    
+    void setSpecular(Specular specular)
+    {
+        this.specular = specular.d;
+    }
 
     Finish eval ()
     {
