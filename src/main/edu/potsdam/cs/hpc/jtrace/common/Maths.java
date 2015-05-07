@@ -11,6 +11,7 @@ class Maths
 {
   static final double BIG_VALUE = 1e10d;
   static final double EPSILON = 1e-10d;
+  static final double TWO_DIV_PI = 2.0d / Math.PI;
 
   static double div (double a, double b)
   {

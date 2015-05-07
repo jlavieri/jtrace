@@ -4,6 +4,7 @@ import edu.potsdam.cs.hpc.jtrace.common.Scene;
 import edu.potsdam.cs.hpc.jtrace.common.Vec3;
 import edu.potsdam.cs.hpc.jtrace.common.color.Color;
 import edu.potsdam.cs.hpc.jtrace.common.color.ColorList;
+import edu.potsdam.cs.hpc.jtrace.common.color.ColorMap;
 import edu.potsdam.cs.hpc.jtrace.common.color.IColor;
 
 
@@ -173,6 +174,16 @@ public abstract class SceneDescription
         return new Position(x, y, z);
     }
     
+    protected static Normal normal (Vec3 v)
+    {
+        return new Normal(v);
+    }
+
+    protected static Normal normal (double x, double y, double z)
+    {
+        return new Normal(x, y, z);
+    }
+    
     protected static LookAt lookAt (Vec3 v)
     {
         return new LookAt(v);
@@ -211,6 +222,41 @@ public abstract class SceneDescription
        for (Color color : colors)
            colorList.add(color);
        return colorList;
+    }
+    
+    static class CME
+    {
+        double position;
+        Color color;
+        
+        CME(double position, Color color)
+        {
+            this.position = position;
+            this.color = color;
+        }
+    }
+    
+    protected static ColorMap colorMap (Object ... tokens)
+    {
+        ColorMap colorMap = new ColorMap();
+        for (int i = 0; i < tokens.length; i++) {
+            Object tok = tokens[i];
+            Double position;
+            Color color;
+            if (tok instanceof Double) {
+                position = (Double)tok;
+                tok = tokens[++i];
+            } else
+                throw new IllegalArgumentException(
+                   "Expected double in color map. Found " + tok.getClass());
+            if (tok instanceof Color)
+                color = (Color)tok;
+            else
+                throw new IllegalArgumentException(
+                    "Expected Color in color map. Found " + tok.getClass());
+            colorMap.put(position, color);
+        }
+        return colorMap;
     }
     
     // Double Types =================================================

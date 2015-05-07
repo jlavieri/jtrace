@@ -38,14 +38,17 @@ public class RsocpScene extends SceneDescription
         skySphere(
             texture (
                 pigment (
-                    checker,
-                    colorList(CHARTREUSE, VIOLET)
+                    gradient,
+                    colorMap(0.0, BLUE, 1.0, WHITE)
                 )
             )
         ).apply();
         
         geom(
-            plane(),
+            plane(
+                  position(-1.4, 0.0, 0.0),
+                  normal(1.0, 0.0, 0.0)
+            ),
             material(
                 texture(
                     pigment(

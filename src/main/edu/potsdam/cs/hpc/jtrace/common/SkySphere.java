@@ -21,7 +21,7 @@ public class SkySphere
     public Color getRadiance (Ray ray)
     {
         Vec3 d = ray.direction;
-        double theta = Math.signum(d.y) * Math.acos(d.y) / Math.PI;
+        double theta = Math.asin(d.y) * Maths.TWO_DIV_PI;
         double phi = Math.atan2(d.z, d.x) / Math.PI;
         return texture.pigment.getColor(new Vec3(phi, theta, 0));
     }
