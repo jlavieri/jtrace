@@ -1,6 +1,5 @@
 import edu.potsdam.cs.hpc.jtrace.common.color.*;
 
-
 import static edu.potsdam.cs.hpc.jtrace.common.Vec3.*;
 import static edu.potsdam.cs.hpc.jtrace.common.color.Color.*;
 import static edu.potsdam.cs.hpc.jtrace.common.sdl.LightType.*;
@@ -51,7 +50,7 @@ public class RsocpScene extends SceneDescription
                 texture(
                     pigment(
                         checker,
-                        colorList(Color.BLACK, Color.WHITE)
+                        colorList(BLACK, WHITE)
                     )
                 )
             )
@@ -63,7 +62,7 @@ public class RsocpScene extends SceneDescription
             ),
             material(
                 texture(
-                    pigment(BLUE),
+                    pigment(GREY),
                     finish(
                         reflection(0.4),
                         specular(0.6)

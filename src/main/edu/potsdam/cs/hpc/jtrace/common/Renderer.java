@@ -70,9 +70,12 @@ class Renderer
             }
         }
 
-        // If the ray hits nothing return the background color.
+        // If the ray hits nothing return the background color or the skysphere.
         if (geom == null)
-            return scene.globalSettings.background;
+            if (scene.skySphere == null)
+                return scene.globalSettings.background;
+            else
+                return scene.skySphere.getRadiance(ray);
 
         geomHitCount++;
 
