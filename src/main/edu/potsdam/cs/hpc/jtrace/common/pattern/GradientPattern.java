@@ -3,7 +3,7 @@ package edu.potsdam.cs.hpc.jtrace.common.pattern;
 import edu.potsdam.cs.hpc.jtrace.common.Vec3;
 
 /**
- * 1D sawtooth gradient isovalued in xy-plane.
+ * 1D sawtooth gradient isovalued in xz-plane.
  */
 public class GradientPattern implements MapPattern
 {

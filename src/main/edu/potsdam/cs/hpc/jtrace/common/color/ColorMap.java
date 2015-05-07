@@ -18,9 +18,14 @@ public class ColorMap implements IColor
 
     public Color get (double d)
     {
-        Entry<Double, Color> a = map.floorEntry(d);
         Entry<Double, Color> b = map.ceilingEntry(d);
-        return a.getValue().lerp(b.getValue(),
-                                 (d - a.getKey()) / (b.getKey() - a.getKey()));
+        Entry<Double, Color> a = map.floorEntry(d);
+        if (a.getKey() == b.getKey())
+            if (d > 0.0d)
+                a = map.lowerEntry(d);
+            else
+                b = map.higherEntry(d);
+        return a.getValue().lerp(b.getValue(), (d - a.getKey()) /
+                                 (b.getKey() - a.getKey()));
     }
 }
