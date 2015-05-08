@@ -13,7 +13,7 @@ import edu.potsdam.cs.hpc.jtrace.common.sdl.*;
  * The traditional reflective sphere over checkered plane.
  * 
  * @author  jlavieri
- * @since   2015-04-23
+ * @since   2015-05-07
  */
 public class RsocpScene extends SceneDescription
 {
@@ -39,15 +39,16 @@ public class RsocpScene extends SceneDescription
             texture (
                 pigment (
                     gradient,
-                    colorMap(0.0, BLUE, 1.0, WHITE)
+                    colorMap(0.00, new Color(0.6, 0.7, 1.0),
+                             0.66, new Color(0.1, 0.0, 0.8),
+                             1.00, new Color(0.1, 0.0, 0.8))
                 )
             )
         ).apply();
         
         geom(
             plane(
-                  position(-1.4, 0.0, 0.0),
-                  normal(1.0, 0.0, 0.0)
+                  normal(0.0, 1.0, 0.0)
             ),
             material(
                 texture(
@@ -65,10 +66,10 @@ public class RsocpScene extends SceneDescription
             ),
             material(
                 texture(
-                    pigment(GREY),
+                    pigment(RED),
                     finish(
                         reflection(0.4),
-                        specular(0.6)
+                        specular(1)
                     )
                 )
             )
