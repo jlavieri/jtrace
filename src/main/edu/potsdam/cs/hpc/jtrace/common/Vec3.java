@@ -167,7 +167,7 @@ public final class Vec3
         return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
-    Vec3 norm ()
+    public Vec3 norm ()
     {
         return this.div(Math.sqrt(this.dot(this)));
     }
@@ -183,6 +183,11 @@ public final class Vec3
     Vec3 snorm ()
     {
         return this.sdiv(Math.sqrt(this.dot(this)));
+    }
+    
+    public Vec3 abs ()
+    {
+        return new Vec3(Math.abs(x), Math.abs(y), Math.abs(z));
     }
 
     @Override

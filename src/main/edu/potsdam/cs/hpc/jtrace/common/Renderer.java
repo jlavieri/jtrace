@@ -13,12 +13,14 @@ import edu.potsdam.cs.hpc.jtrace.common.sdl.Scenes;
 class Renderer
 {
     // TODO move these to render settings or global settings
-    private static final int MAX_DEPTH = 5;
-    @SuppressWarnings("unused")
+    private static final int MAX_DEPTH = 8;
     private static final double ADC_BAILOUT = 1D / 255D;
     private static final double MAX_DIS = 1E10D;
     
     private static final double SPECULAR_POWER = 21.0d;
+    
+    private static final Color[] DEPTH_COLOR = {Color.RED, Color.ORANGE,
+        Color.YELLOW, Color.GREEN, Color.BLUE, Color.MAGENTA, Color.BLACK};
 
     private final Scene scene;
     private final RenderSettings renderSettings;
@@ -41,6 +43,11 @@ class Renderer
         scene.camera.initialize(renderSettings.dimension);
     }
 
+    private Color trace(Ray ray)
+    {
+        return trace(ray, 0, null);
+    }
+
     /**
      * Traces a ray recursively.
      * 
@@ -48,9 +55,10 @@ class Renderer
      *            The ray to trace.
      * @param depth
      *            The recursion depth. Casts start at 0.
+     * 
      * @return The radiance in the scene.
      */
-    private Color trace (Ray ray, int depth)
+    private Color trace (Ray ray, int depth, Geom iGeom)
     {
         if (depth > MAX_DEPTH)
             return null;
@@ -61,6 +69,8 @@ class Renderer
 
         // TODO scene.geoms needs to be a filtered set of geoms by visbounding
         for (Geom gitr : scene.geoms) {
+            if (gitr == iGeom)
+                continue;
             double distance = gitr.primitive.intersect(ray);
             if (distance < 0d)
                 continue;
@@ -142,13 +152,137 @@ class Renderer
                              ray.direction.dot(intersectionNormal));
             Ray reflectionRay = new Ray(intersectionPoint, reflectionDirection);
             reflectionRayCount++;
-            Color reflectionColor = trace(reflectionRay, depth + 1);
+            Color reflectionColor = trace(reflectionRay, depth + 1, geom);
             radiance.addeq(reflectionColor
                     .mult(geom.material.texture.finish.reflection)
                     .multeq(pigment));
         }
 
         return radiance;
+    }
+    
+    /**
+     * Traces a ray recursively.
+     * 
+     * @param ray
+     *            The ray to trace.
+     * @param depth
+     *            The recursion depth. Casts start at 0.
+     * @return The max depth reached in the scene.
+     */
+    private int traceDepth (Ray ray, int depth)
+    {
+        int maxDepth = DEPTH_COLOR.length - 1;
+
+        // Calculate the closest intersection of the ray with scene geoms.
+        Geom geom = null;
+        double smallestDistance = MAX_DIS;
+
+        // TODO scene.geoms needs to be a filtered set of geoms by visbounding
+        for (Geom gitr : scene.geoms) {
+            double distance = gitr.primitive.intersect(ray);
+            if (distance < 0d)
+                continue;
+            if (distance < smallestDistance) {
+                smallestDistance = distance;
+                geom = gitr;
+            }
+        }
+
+        // If the ray hits nothing return the current depth.
+        if (geom == null)
+            return depth;
+
+        geomHitCount++;
+
+        // This is the intersection point of the geom with the ray.
+        Vec3 intersectionPoint = ray.position(smallestDistance);
+        Vec3 intersectionNormal = geom.primitive.normalOf(intersectionPoint);
+
+        // Reflection
+        if (geom.material.texture.finish.reflection > 0.0d && depth < maxDepth) {
+            Vec3 reflectionDirection = ray.direction.
+                    sub(intersectionNormal
+                        .mul(2.0d * ray.direction
+                             .dot(intersectionNormal)))
+                    ;
+            Ray reflectionRay = new Ray(intersectionPoint, reflectionDirection);
+            reflectionRayCount++;
+            int recDepth = traceDepth(reflectionRay, depth + 1);
+            return recDepth > maxDepth ? maxDepth : recDepth;
+        }
+
+        return depth;
+    }
+    
+    private Color traceIntersection (Ray ray, int depth)
+    {
+        // Calculate the closest intersection of the ray with scene geoms.
+        Geom geom = null;
+        double smallestDistance = MAX_DIS;
+
+        // TODO scene.geoms needs to be a filtered set of geoms by visbounding
+        for (Geom gitr : scene.geoms) {
+            double distance = gitr.primitive.intersect(ray);
+            if (distance < 0d)
+                continue;
+            if (distance < smallestDistance) {
+                smallestDistance = distance;
+                geom = gitr;
+            }
+        }
+
+        // If the ray hits nothing return black.
+        if (geom == null)
+            return Color.BLACK;
+
+        geomHitCount++;
+
+        // This is the intersection point of the geom with the ray.
+        Vec3 iP = ray.position(smallestDistance);
+        Vec3 iN = geom.primitive.normalOf(iP);
+        //return new Color(Math.abs(iN.x), Math.abs(iN.y), Math.abs(iN.z));
+        return new Color(Math.abs(iP.x), Math.abs(iP.y), Math.abs(iP.z));
+        //return new Color(iP.x, iP.y, iP.z);
+    }
+
+    private Color traceReflection (Ray ray)
+    {
+        // Calculate the closest intersection of the ray with scene geoms.
+        Geom geom = null;
+        double smallestDistance = MAX_DIS;
+
+        // TODO scene.geoms needs to be a filtered set of geoms by visbounding
+        for (Geom gitr : scene.geoms) {
+            double distance = gitr.primitive.intersect(ray);
+            if (distance < 0d)
+                continue;
+            if (distance < smallestDistance) {
+                smallestDistance = distance;
+                geom = gitr;
+            }
+        }
+
+        // If the ray hits nothing return the background color or the skysphere.
+        if (geom == null)
+            return Color.BLACK;
+
+        geomHitCount++;
+
+        // This is the intersection point of the geom with the ray.
+        Vec3 intersectionPoint = ray.position(smallestDistance);
+        Vec3 intersectionNormal = geom.primitive.normalOf(intersectionPoint);
+
+        // Reflection
+        if (geom.material.texture.finish.reflection > 0.0d) {
+            Vec3 rD = ray.direction
+                    .reflect(intersectionNormal,
+                             ray.direction.dot(intersectionNormal)).abs();
+            reflectionRayCount++;
+            return new Color(rD.x, rD.y, rD.z);
+        }
+
+        return Color.WHITE;
     }
 
     void render ()
@@ -160,7 +294,12 @@ class Renderer
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++) {
                 eyeRayCount++;
-                bi.setRGB(x, y, trace(scene.camera.getRay(x, y), 0).toInt());
+                bi.setRGB(x, y,
+             trace(scene.camera.getRay(x, y)).toInt()
+             //DEPTH_COLOR[traceDepth(scene.camera.getRay(x, y), 0)].toInt()
+             //traceIntersection(scene.camera.getRay(x, y), 0).toInt()
+             //traceReflection(scene.camera.getRay(x, y)).toInt()
+                        );
             }
         try {
             ImageIO.write(bi, "png", renderSettings.outputFile);
