@@ -5,7 +5,7 @@ import edu.potsdam.cs.hpc.jtrace.common.Renderer;
 import edu.potsdam.cs.hpc.jtrace.common.sdl.RenderSettingsBuilder;
 
 /**
- * JTrace.
+ * JTrace serial version.
  *
  * @author lavierijp
  * @version 2015-05-12

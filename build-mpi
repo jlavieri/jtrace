@@ -3,6 +3,6 @@
 mkdir -p ./build/serial/bin
 
 find ./src/main/edu/potsdam/cs/hpc/jtrace/common -name "*.java" > ./build/serial/sources
-find ./src/main/edu/potsdam/cs/hpc/jtrace/serial -name "*.java" >> ./build/serial/sources
+find ./src/main/edu/potsdam/cs/hpc/jtrace/mpi -name "*.java" >> ./build/serial/sources
 
 javac -verbose -d ./build/serial/bin @./build/serial/sources
