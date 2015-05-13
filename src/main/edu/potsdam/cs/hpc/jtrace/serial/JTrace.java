@@ -1,12 +1,14 @@
-package edu.potsdam.cs.hpc.jtrace.common;
+package edu.potsdam.cs.hpc.jtrace.serial;
 
+import edu.potsdam.cs.hpc.jtrace.common.RenderSettings;
+import edu.potsdam.cs.hpc.jtrace.common.Renderer;
 import edu.potsdam.cs.hpc.jtrace.common.sdl.RenderSettingsBuilder;
 
 /**
  * JTrace.
  *
  * @author lavierijp
- * @version 2015-03-20
+ * @version 2015-05-12
  * @since 2012-03-15
  */
 public class JTrace

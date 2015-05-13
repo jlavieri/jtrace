@@ -10,7 +10,7 @@ import edu.potsdam.cs.hpc.jtrace.common.color.Color;
 import edu.potsdam.cs.hpc.jtrace.common.light.Light;
 import edu.potsdam.cs.hpc.jtrace.common.sdl.Scenes;
 
-class Renderer
+public class Renderer
 {
     // TODO move these to render settings or global settings
     private static final int MAX_DEPTH = 8;
@@ -285,7 +285,7 @@ class Renderer
         return Color.WHITE;
     }
 
-    void render ()
+    public void render ()
     {
         long start = System.currentTimeMillis();
 

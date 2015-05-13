@@ -1,3 +1,3 @@
 #!/bin/bash
 
-java -cp ./build/serial/bin edu.potsdam.cs.hpc.jtrace.common.JTrace $*
+java -cp ./build/serial/bin edu.potsdam.cs.hpc.jtrace.serial.JTrace $*
