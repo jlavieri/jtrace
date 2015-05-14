@@ -35,8 +35,12 @@ public class Renderer
 
     public Renderer (RenderSettings renderSettings)
     {
-        this.scene = Scenes.getSceneFromFile(renderSettings.inputFile);
-        System.out.println(scene);
+        this(Scenes.getSceneFromFile(renderSettings.inputFile), renderSettings);
+    }
+    
+    public Renderer (Scene scene, RenderSettings renderSettings)
+    {
+        this.scene = scene;
         this.renderSettings = renderSettings;
         width = renderSettings.dimension.width;
         height = renderSettings.dimension.height;

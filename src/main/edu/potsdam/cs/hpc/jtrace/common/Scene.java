@@ -1,10 +1,14 @@
 package edu.potsdam.cs.hpc.jtrace.common;
 
+import java.io.Serializable;
+
 import edu.potsdam.cs.hpc.jtrace.common.camera.Camera;
 import edu.potsdam.cs.hpc.jtrace.common.light.Light;
 
-public class Scene
+public class Scene implements Serializable
 {
+    private static final long serialVersionUID = 8711967886958530324L;
+    
     public final GlobalSettings globalSettings;
     public final Camera camera;
     public final SkySphere skySphere;
