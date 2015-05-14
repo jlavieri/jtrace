@@ -1,7 +1,11 @@
 package edu.potsdam.cs.hpc.jtrace.common;
 
-public class RenderConfiguration
+import java.io.Serializable;
+
+public class RenderConfiguration implements Serializable
 {
+    private static final long serialVersionUID = 7362561360504232226L;
+    
     public final int width, height, startCol, startRow, stopCol, stopRow;
     
     public RenderConfiguration (int width, int height, int startCol,
