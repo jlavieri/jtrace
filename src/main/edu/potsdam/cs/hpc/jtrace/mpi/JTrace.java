@@ -25,8 +25,9 @@ public class JTrace
         
         int rank = COMM_WORLD.getRank();
         int [] sbaLength = new int[1];
+        byte [] sba = null;
         
-        if (COMM_WORLD.getRank() == 0) {
+        if (rank == 0) {
             // Build render settings
             RenderSettings renderSettings = new RenderSettingsBuilder(args).build();
             System.out.println("Tracing...");
@@ -36,20 +37,20 @@ public class JTrace
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             ObjectOutputStream out = new ObjectOutputStream(bos);
             out.writeObject(scene);
-            byte [] sba = bos.toByteArray();
-            System.out.println("sba len: " + sba.length);
-            
+            sba = bos.toByteArray();
             sbaLength[0] = sba.length;
-            /*Datatype sbaVec = Datatype.createVector(sba.length, 1,
-                                                    BYTE.getSize(), BYTE);*/
-            //COMM_WORLD.bcast(sba, 1, sbaVec, 0);
             
             //new Renderer(renderSettings).render();
         }
         
         COMM_WORLD.bcast(sbaLength, 1, INT, 0);
         
-        System.out.printf("rank %s sba len: %s", rank, sbaLength[0]);
+        if (rank != 0)
+            sba = new byte[sbaLength[0]];
+        
+        COMM_WORLD.bcast(sba, sba.length, BYTE, 0);
+        
+        System.out.printf("rank %s sba: %s", rank, sba);
         
         Finalize();
     }
