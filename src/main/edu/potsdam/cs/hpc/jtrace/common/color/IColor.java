@@ -1,4 +1,6 @@
 package edu.potsdam.cs.hpc.jtrace.common.color;
 
-public interface IColor
+import java.io.Serializable;
+
+public interface IColor extends Serializable
 {}

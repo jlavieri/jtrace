@@ -5,6 +5,8 @@ import java.util.List;
 
 public class ColorList implements IColor
 {
+    private static final long serialVersionUID = -162208479088432164L;
+    
     private final List<Color> list = new ArrayList<Color>(2);
     
     public void add (Color color)

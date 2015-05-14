@@ -1,10 +1,14 @@
 package edu.potsdam.cs.hpc.jtrace.common;
 
+import java.io.Serializable;
+
 import edu.potsdam.cs.hpc.jtrace.common.color.Color;
 import edu.potsdam.cs.hpc.jtrace.common.material.Texture;
 
-public class SkySphere
+public class SkySphere implements Serializable
 {
+    private static final long serialVersionUID = -2552382163190739605L;
+    
     public final Texture texture;
     
     public SkySphere (Texture texture)

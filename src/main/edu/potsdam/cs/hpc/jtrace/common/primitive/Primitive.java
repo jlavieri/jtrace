@@ -1,14 +1,16 @@
 package edu.potsdam.cs.hpc.jtrace.common.primitive;
 
+import java.io.Serializable;
+
 import edu.potsdam.cs.hpc.jtrace.common.Intersectable;
 import edu.potsdam.cs.hpc.jtrace.common.NormalCalculable;
 
 /**
- * @author  jlavieri
- * @version 2015-03-12
- * @since   2015-03-12
+ * @author jlavieri
+ * @since 2015-03-12
  */
-public abstract class Primitive implements Intersectable, NormalCalculable
+public abstract class Primitive implements Intersectable, NormalCalculable,
+        Serializable
 {
-
+    private static final long serialVersionUID = 1L;
 }
