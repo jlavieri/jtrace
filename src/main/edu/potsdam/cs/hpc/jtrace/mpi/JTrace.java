@@ -2,6 +2,9 @@ package edu.potsdam.cs.hpc.jtrace.mpi;
 
 import mpi.MPI;
 import mpi.MPIException;
+import edu.potsdam.cs.hpc.jtrace.common.RenderSettings;
+import edu.potsdam.cs.hpc.jtrace.common.Renderer;
+import edu.potsdam.cs.hpc.jtrace.common.sdl.RenderSettingsBuilder;
 
 /**
  * JTrace MPI version.
@@ -16,11 +19,13 @@ public class JTrace
         
         System.out.println(MPI.COMM_WORLD.getRank());
         
-        /*
-        RenderSettings renderSettings = new RenderSettingsBuilder(args).build();
-        System.out.println("Tracing...");
-        new Renderer(renderSettings).render();
-        */
+        if (MPI.COMM_WORLD.getRank() == 0) {
+        
+            RenderSettings renderSettings = new RenderSettingsBuilder(args).build();
+            System.out.println("Tracing...");
+            new Renderer(renderSettings).render();
+        
+        }
         
         MPI.Finalize();
     }
