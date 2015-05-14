@@ -282,7 +282,7 @@ public class Renderer
         long start = System.currentTimeMillis();
 
         BufferedImage image = new BufferedImage(renderConfig.width,
-                renderConfig.height, BufferedImage.TYPE_INT_ARGB);
+                renderConfig.height, BufferedImage.TYPE_INT_RGB);
         for (int y = renderConfig.startRow; y <= renderConfig.stopRow; y++)
             for (int x = renderConfig.startCol; x <= renderConfig.stopCol; x++) {
                 eyeRayCount++;
