@@ -54,11 +54,10 @@ public class JTrace
         
         scatter(configList, renderConfig, 0);
         
-        if (rank == 0) {
-            BufferedImage image = new Renderer(scene.get(), renderConfig.get()).render();
-        }
         
-        //System.out.println(image);
+        BufferedImage image = new Renderer(scene.get(), renderConfig.get()).render();
+        
+        System.out.println(image);
         
         Finalize();
     }
@@ -240,9 +239,7 @@ public class JTrace
         
         COMM_WORLD.scatterv(srcBuf, srcLen, pos, BYTE, dstBuf, dstLen[0], BYTE, root);
         
-        if (rank != root) {
-            ByteArrayInputStream bais = new ByteArrayInputStream(dstBuf);
-            ref.set((T) new ObjectInputStream(bais).readObject());
-        }
+        ByteArrayInputStream bais = new ByteArrayInputStream(dstBuf);
+        ref.set((T) new ObjectInputStream(bais).readObject());
     }
 }
