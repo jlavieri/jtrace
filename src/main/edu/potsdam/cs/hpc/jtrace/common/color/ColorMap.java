@@ -6,6 +6,8 @@ import java.util.TreeMap;
 
 public class ColorMap implements IColor
 {
+    private static final long serialVersionUID = -4027117579013717391L;
+    
     private final NavigableMap<Double, Color> map = new TreeMap<>();
 
     public void put (Double d, Color c)

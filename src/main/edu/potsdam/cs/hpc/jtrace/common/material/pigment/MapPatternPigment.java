@@ -7,6 +7,8 @@ import edu.potsdam.cs.hpc.jtrace.common.pattern.MapPattern;
 
 public class MapPatternPigment implements Pigment
 {
+    private static final long serialVersionUID = -5180827519370371082L;
+    
     private final ColorMap colorMap;
     private final MapPattern pattern;
 

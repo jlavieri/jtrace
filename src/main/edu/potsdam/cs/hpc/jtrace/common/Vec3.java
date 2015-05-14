@@ -1,12 +1,16 @@
 package edu.potsdam.cs.hpc.jtrace.common;
 
+import java.io.Serializable;
+
 /**
  * Three-space vector used to represent Euclidean vectors and position vectors.
  *
  * @author lavierijp
  */
-public final class Vec3
+public final class Vec3 implements Serializable
 {
+    private static final long serialVersionUID = -5061561019765360584L;
+
     /** Positive X unit vector. */
     public static final Vec3 X = new Vec3(1d, 0d, 0d);
 

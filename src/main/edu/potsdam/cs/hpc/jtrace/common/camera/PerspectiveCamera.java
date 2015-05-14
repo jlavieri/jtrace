@@ -7,11 +7,12 @@ import edu.potsdam.cs.hpc.jtrace.common.Vec3;
 
 /**
  * @author lavierijp
- * @version 2015-03-12
  * @since 2012-06-23
  */
 public class PerspectiveCamera implements Camera
 {
+    private static final long serialVersionUID = -7851042886933340712L;
+
     final Vec3
         position, // This is the "position" of the camera.
         direction, // This is the direction the camera points.

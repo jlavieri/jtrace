@@ -5,11 +5,12 @@ import edu.potsdam.cs.hpc.jtrace.common.color.Color;
 
 /**
  * @author jlavieri
- * @version 2015-03-12
  * @since 2012-06-22
  */
 public class PointLight extends Light
 {
+    private static final long serialVersionUID = 5556597930609951506L;
+
     public PointLight(Vec3 position, Color color)
     {
         this.position = position;

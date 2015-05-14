@@ -2,6 +2,8 @@ package edu.potsdam.cs.hpc.jtrace.common.color;
 
 public final class Color implements IColor
 {
+    private static final long serialVersionUID = 228138238477438398L;
+
     public static final Color
         BLACK = new Color(),
         GREY = new Color(0.5),

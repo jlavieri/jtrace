@@ -1,14 +1,11 @@
 package edu.potsdam.cs.hpc.jtrace.common;
 
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.PrintStream;
-
-import javax.imageio.ImageIO;
 
 import edu.potsdam.cs.hpc.jtrace.common.color.Color;
 import edu.potsdam.cs.hpc.jtrace.common.light.Light;
-import edu.potsdam.cs.hpc.jtrace.common.sdl.Scenes;
 
 public class Renderer
 {
@@ -23,24 +20,19 @@ public class Renderer
         Color.YELLOW, Color.GREEN, Color.BLUE, Color.MAGENTA, Color.BLACK};
 
     private final Scene scene;
-    private final RenderSettings renderSettings;
-
-    // Extract these from renderSettings for sugar.
-    private final int width, height;
+    private final RenderConfiguration renderConfig;
 
     // Statistics
     private int eyeRayCount, reflectionRayCount, refractionRayCount,
             shadowRayCount, geomHitCount;
     private long time;
 
-    public Renderer (RenderSettings renderSettings)
+    public Renderer (Scene scene, RenderConfiguration renderConfig)
     {
-        this.scene = Scenes.getSceneFromFile(renderSettings.inputFile);
-        System.out.println(scene);
-        this.renderSettings = renderSettings;
-        width = renderSettings.dimension.width;
-        height = renderSettings.dimension.height;
-        scene.camera.initialize(renderSettings.dimension);
+        this.scene = scene;
+        this.renderConfig = renderConfig;
+        scene.camera.initialize(new Dimension(renderConfig.width,
+                renderConfig.height));
     }
 
     private Color trace(Ray ray)
@@ -285,31 +277,27 @@ public class Renderer
         return Color.WHITE;
     }
 
-    public void render ()
+    public BufferedImage render ()
     {
         long start = System.currentTimeMillis();
 
-        BufferedImage bi = new BufferedImage(width, height,
-                BufferedImage.TYPE_INT_RGB);
-        for (int y = 0; y < height; y++)
-            for (int x = 0; x < width; x++) {
+        BufferedImage image = new BufferedImage(renderConfig.width,
+                renderConfig.height, BufferedImage.TYPE_INT_RGB);
+        for (int y = renderConfig.startRow; y <= renderConfig.stopRow; y++)
+            for (int x = renderConfig.startCol; x <= renderConfig.stopCol; x++) {
                 eyeRayCount++;
-                bi.setRGB(x, y,
+                image.setRGB(x, y,
              trace(scene.camera.getRay(x, y)).toInt()
              //DEPTH_COLOR[traceDepth(scene.camera.getRay(x, y), 0)].toInt()
              //traceIntersection(scene.camera.getRay(x, y), 0).toInt()
              //traceReflection(scene.camera.getRay(x, y)).toInt()
                         );
             }
-        try {
-            ImageIO.write(bi, "png", renderSettings.outputFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         long stop = System.currentTimeMillis();
         time = stop - start;
         printStatistics();
+        return image;
     }
 
     private void printStatistics ()

@@ -7,6 +7,8 @@ import edu.potsdam.cs.hpc.jtrace.common.Vec3;
  */
 public class GradientPattern implements MapPattern
 {
+    private static final long serialVersionUID = -4277246673032561303L;
+
     @Override
     public double evaluate (Vec3 v)
     {

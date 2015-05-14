@@ -1,4 +1,6 @@
 package edu.potsdam.cs.hpc.jtrace.common.pattern;
 
-public interface Pattern
+import java.io.Serializable;
+
+public interface Pattern extends Serializable
 {}

@@ -1,15 +1,15 @@
 package edu.potsdam.cs.hpc.jtrace.common.camera;
 
 import java.awt.Dimension;
+import java.io.Serializable;
 
 import edu.potsdam.cs.hpc.jtrace.common.Ray;
 
 /**
  * @author lavierijp
- * @version 2015-03-11
  * @since 2012-06-23
  */
-public interface Camera
+public interface Camera extends Serializable
 {
     /**
      * Sets the dimension of the output buffer. This needs to be called before

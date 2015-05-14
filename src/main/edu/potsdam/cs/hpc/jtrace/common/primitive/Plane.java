@@ -5,6 +5,8 @@ import edu.potsdam.cs.hpc.jtrace.common.Vec3;
 
 public class Plane extends Primitive
 {
+    private static final long serialVersionUID = -4923358428174984535L;
+    
     Vec3 position, normal;
 
     public Plane(Vec3 position, Vec3 normal)

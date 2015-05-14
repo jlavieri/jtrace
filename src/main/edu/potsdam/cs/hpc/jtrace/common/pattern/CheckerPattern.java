@@ -4,6 +4,8 @@ import edu.potsdam.cs.hpc.jtrace.common.Vec3;
 
 public class CheckerPattern implements ListPattern
 {
+    private static final long serialVersionUID = -3808986594444494677L;
+
     @Override
     public int evaluate (Vec3 v)
     {

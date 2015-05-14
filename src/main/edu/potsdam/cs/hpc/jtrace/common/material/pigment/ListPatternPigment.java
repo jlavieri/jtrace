@@ -7,6 +7,8 @@ import edu.potsdam.cs.hpc.jtrace.common.pattern.ListPattern;
 
 public class ListPatternPigment implements Pigment
 {
+    private static final long serialVersionUID = 6053339358972470722L;
+    
     private final ColorList colorList;
     private final ListPattern pattern;
 

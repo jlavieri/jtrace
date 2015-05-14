@@ -5,6 +5,8 @@ import edu.potsdam.cs.hpc.jtrace.common.Vec3;
 
 public class Sphere extends Primitive
 {
+    private static final long serialVersionUID = 4935442365859221177L;
+    
     private final Vec3 position;
     private final double radius;
 
