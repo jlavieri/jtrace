@@ -54,9 +54,10 @@ public class JTrace
         
         scatter(configList, renderConfig, 0);
         
-        BufferedImage image = new Renderer(scene.get(), renderConfig.get()).render();
+        if (rank == 0)
+            BufferedImage image = new Renderer(scene.get(), renderConfig.get()).render();
         
-        System.out.println(image);
+        //System.out.println(image);
         
         Finalize();
     }
