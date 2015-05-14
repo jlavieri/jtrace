@@ -2,6 +2,7 @@ package edu.potsdam.cs.hpc.jtrace.mpi;
 
 import static mpi.MPI.*;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import mpi.MPIException;
 import edu.potsdam.cs.hpc.jtrace.common.RenderConfiguration;
 import edu.potsdam.cs.hpc.jtrace.common.RenderSettings;
 import edu.potsdam.cs.hpc.jtrace.common.RenderSettingsBuilder;
+import edu.potsdam.cs.hpc.jtrace.common.Renderer;
 import edu.potsdam.cs.hpc.jtrace.common.Scene;
 import edu.potsdam.cs.hpc.jtrace.common.sdl.Scenes;
 
@@ -52,10 +54,9 @@ public class JTrace
         
         scatter(configList, renderConfig, 0);
         
-        if (rank != 0) {
-            System.out.println(renderConfig.get());
-            //BufferedImage bi = new Renderer(scene, renderConfig).render();
-        }
+        BufferedImage image = new Renderer(scene.get(), renderConfig.get()).render();
+        
+        System.out.println(image);
         
         Finalize();
     }

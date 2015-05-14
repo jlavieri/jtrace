@@ -1,11 +1,11 @@
 package edu.potsdam.cs.hpc.jtrace.common;
 
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.PrintStream;
 
 import edu.potsdam.cs.hpc.jtrace.common.color.Color;
 import edu.potsdam.cs.hpc.jtrace.common.light.Light;
-import edu.potsdam.cs.hpc.jtrace.common.sdl.Scenes;
 
 public class Renderer
 {
@@ -20,28 +20,19 @@ public class Renderer
         Color.YELLOW, Color.GREEN, Color.BLUE, Color.MAGENTA, Color.BLACK};
 
     private final Scene scene;
-    private final RenderSettings renderSettings;
-
-    // Extract these from renderSettings for sugar.
-    private final int width, height;
+    private final RenderConfiguration renderConfig;
 
     // Statistics
     private int eyeRayCount, reflectionRayCount, refractionRayCount,
             shadowRayCount, geomHitCount;
     private long time;
 
-    public Renderer (RenderSettings renderSettings)
-    {
-        this(Scenes.getSceneFromFile(renderSettings.inputFile), renderSettings);
-    }
-    
-    public Renderer (Scene scene, RenderSettings renderSettings)
+    public Renderer (Scene scene, RenderConfiguration renderConfig)
     {
         this.scene = scene;
-        this.renderSettings = renderSettings;
-        width = renderSettings.dimension.width;
-        height = renderSettings.dimension.height;
-        scene.camera.initialize(renderSettings.dimension);
+        this.renderConfig = renderConfig;
+        scene.camera.initialize(new Dimension(renderConfig.width,
+                renderConfig.height));
     }
 
     private Color trace(Ray ray)
@@ -290,10 +281,10 @@ public class Renderer
     {
         long start = System.currentTimeMillis();
 
-        BufferedImage image = new BufferedImage(width, height,
-                BufferedImage.TYPE_INT_RGB);
-        for (int y = 0; y < height; y++)
-            for (int x = 0; x < width; x++) {
+        BufferedImage image = new BufferedImage(renderConfig.width,
+                renderConfig.height, BufferedImage.TYPE_INT_RGB);
+        for (int y = renderConfig.startRow; y <= renderConfig.stopRow; y++)
+            for (int x = renderConfig.startCol; x <= renderConfig.stopCol; x++) {
                 eyeRayCount++;
                 image.setRGB(x, y,
              trace(scene.camera.getRay(x, y)).toInt()
