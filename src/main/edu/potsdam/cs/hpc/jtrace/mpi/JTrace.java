@@ -131,39 +131,39 @@ public class JTrace
     private static <T> void scatter (List<T> list, AtomicReference<T> ref,
             int root) throws IOException, MPIException, ClassNotFoundException
     {
-        int n = size - 1;
-        if (list.size() != n)
+        if (list.size() != size)
             throw new IllegalArgumentException(String.format(
-                 "The number of items in the provided list is %s, but there are %s non-root ranks in the group.", list.size(), n));
+                 "The number of items in the provided list is %s, but there are %s ranks in the group.", list.size(), size));
         
-        byte [] buf = null;
-        int [] pos = new int[n];
-        int [] len = new int[n];
+        byte [] srcBuf = null;
+        byte [] dstBuf = null;
+        int [] pos = new int[size];
+        int [] srcLen = new int[size];
+        int [] dstLen = new int [1];
         
         if (rank == root) {
             int sum = 0;
-            ByteArrayOutputStream [] baosa = new ByteArrayOutputStream[n];
-            for (int i = 0; i < n; i++) {
+            ByteArrayOutputStream [] baosa = new ByteArrayOutputStream[size];
+            for (int i = 0; i < size; i++) {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 new ObjectOutputStream(baos).writeObject(list.get(i));
                 pos[i] = sum;
-                sum += len[i] = baos.size();
+                sum += srcLen[i] = baos.size();
                 baosa[i] = baos;
             }
-            buf = new byte[sum];
-            for (int i = 0; i < n; i++)
-                System.arraycopy(baosa[i].toByteArray(), 0, buf, pos[i], len[i]);
+            srcBuf = new byte[sum];
+            for (int i = 0; i < size; i++)
+                System.arraycopy(baosa[i].toByteArray(), 0, srcBuf, pos[i], srcLen[i]);
         }
         
-        COMM_WORLD.scatter(len, 1, INT, len, 1, INT, root);
+        COMM_WORLD.scatter(srcLen, 1, INT, dstLen, 1, INT, root);
         
-        if (rank != root)
-            buf = new byte[len[0]];
+        dstBuf = new byte[dstLen[0]];
         
-        COMM_WORLD.scatterv(buf, len, pos, BYTE, buf, len[0], BYTE, root);
+        COMM_WORLD.scatterv(srcBuf, srcLen, pos, BYTE, dstBuf, dstLen[0], BYTE, root);
         
         if (rank != root) {
-            ByteArrayInputStream bais = new ByteArrayInputStream(buf);
+            ByteArrayInputStream bais = new ByteArrayInputStream(dstBuf);
             ref.set((T) new ObjectInputStream(bais).readObject());
         }
     }
