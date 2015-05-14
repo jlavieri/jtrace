@@ -65,20 +65,17 @@ public class JTrace
         gather(imagesBuffer, imagesOffsets, image, 0);
         
         if (rank == 0) {
-            BufferedImage merge = new BufferedImage(renderConfig.get().width,
-                        renderConfig.get().height, BufferedImage.TYPE_INT_ARGB);
-            for (int i = 0; i < size; i++) {
-                RenderConfiguration rc = configList.get(i);
-                int startX = rc.startCol;
-                int startY = rc.startRow;
-                int w = rc.stopCol - rc.startCol + 1;
-                int h = rc.stopRow - rc.startRow + 1;
-                int [] rgbArray = imagesBuffer.get();
-                int offset = imagesOffsets.get()[i];
-                int scansize = rc.width;
-                merge.setRGB(startX, startY, w, h, rgbArray, offset, scansize);
-            }
-            ImageIO.write(merge, "png", renderSettings.outputFile);
+            int w = renderConfig.get().width;
+            int h  = renderConfig.get().height;
+            int [] images = imagesBuffer.get();
+            int [] merge = new int[w * h];
+            
+            for (int i = 0; i < images.length; i++)
+                merge[i % merge.length] |= images[i];
+            
+            BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            bi.setRGB(0, 0, w, h, merge, 0, w);
+            ImageIO.write(bi, "png", renderSettings.outputFile);
         }
         
         Finalize();
