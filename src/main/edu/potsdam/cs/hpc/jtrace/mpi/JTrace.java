@@ -6,7 +6,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-import mpi.Datatype;
 import mpi.MPIException;
 import edu.potsdam.cs.hpc.jtrace.common.RenderSettings;
 import edu.potsdam.cs.hpc.jtrace.common.RenderSettingsBuilder;
@@ -37,22 +36,22 @@ public class JTrace
             ObjectOutputStream out = new ObjectOutputStream(bos);
             out.writeObject(scene);
             byte [] sba = bos.toByteArray();
-            
+            System.out.println("sba len: " + sba.length);
             // Broadcast scene to workers.
             COMM_WORLD.bcast(sba.length, 1, INT, 0);
-            Datatype sbaVec = Datatype.createVector(sba.length, 1,
-                                                    BYTE.getSize(), BYTE);
-            COMM_WORLD.bcast(sba, 1, sbaVec, 0);
+            /*Datatype sbaVec = Datatype.createVector(sba.length, 1,
+                                                    BYTE.getSize(), BYTE);*/
+            //COMM_WORLD.bcast(sba, 1, sbaVec, 0);
             
             //new Renderer(renderSettings).render();
         
         } else {
             int[] sbaLength = new int[1];
             COMM_WORLD.recv(sbaLength, 1, INT, 0, 10);
-            byte [] sba = new byte[sbaLength[0]];
-            Datatype sbaVec = Datatype.createVector(sba.length, 1, BYTE.getSize(), BYTE);
-            COMM_WORLD.recv(sba, 1, sbaVec, 0, 11);
-            System.out.println(COMM_WORLD.getRank() + ": " + sba.length);
+            //byte [] sba = new byte[sbaLength[0]];
+            //Datatype sbaVec = Datatype.createVector(sba.length, 1, BYTE.getSize(), BYTE);
+            //COMM_WORLD.recv(sba, 1, sbaVec, 0, 11);
+            System.out.println(COMM_WORLD.getRank() + ": " + sbaLength[0]);
         }
         
         Finalize();
