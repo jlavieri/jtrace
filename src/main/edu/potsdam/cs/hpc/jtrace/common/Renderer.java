@@ -31,6 +31,11 @@ public class Renderer
     {
         this.scene = scene;
         this.renderConfig = renderConfig;
+        System.out.println(scene);
+        System.out.println(scene.camera);
+        System.out.println(renderConfig);
+        System.out.println(renderConfig.width);
+        System.out.println(renderConfig.height);
         scene.camera.initialize(new Dimension(renderConfig.width,
                 renderConfig.height));
     }
