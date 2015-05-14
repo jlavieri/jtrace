@@ -2,6 +2,7 @@ package edu.potsdam.cs.hpc.jtrace.mpi;
 
 import static mpi.MPI.*;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -11,6 +12,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+
+import javax.imageio.ImageIO;
 
 import mpi.MPIException;
 import edu.potsdam.cs.hpc.jtrace.common.RenderConfiguration;
@@ -49,15 +52,29 @@ public class JTrace
         
         AtomicReference<RenderConfiguration> renderConfig = new AtomicReference<>();
         List<RenderConfiguration> configList = null;
+        
         if (rank == 0)
             configList = getRenderConfigList(renderSettings);
         
         scatter(configList, renderConfig, 0);
         
+        AtomicReference<BufferedImage> image = new AtomicReference<>();
+        image.set(new Renderer(scene.get(), renderConfig.get()).render());
+        List<BufferedImage> imageList = null;
         
-        BufferedImage image = new Renderer(scene.get(), renderConfig.get()).render();
+        if (rank == 0)
+            imageList = new ArrayList<>(size);
         
-        System.out.println(image);
+        gather(imageList, image, 0);
+        
+        if (rank == 0) {
+            BufferedImage merge = new BufferedImage(renderConfig.get().width,
+                        renderConfig.get().height, BufferedImage.TYPE_INT_ARGB);
+            Graphics g = merge.getGraphics();
+            for (BufferedImage img : imageList)
+                g.drawImage(img, 0, 0, null);
+            ImageIO.write(merge, "png", renderSettings.outputFile);
+        }
         
         Finalize();
     }
@@ -154,8 +171,6 @@ public class JTrace
      * Broadcasts a serializable object from a given root to the rest of the
      * group.
      * 
-     * @param <T>
-     *            The reference type.
      * @param ref
      *            An atomic reference to the object to be broadcast.
      * @param root
@@ -197,12 +212,19 @@ public class JTrace
     /**
      * Scatters a list of objects to the rest of the group and puts the result
      * in the the given atomic reference.
+     * 
      * @param list
+     *            The list of objects to scatter.
      * @param ref
+     *            The destination buffer.
      * @param root
+     *            The root rank.
      * @throws IOException
+     *             If an I/O error occurs.
      * @throws MPIException
+     *             If an MPI error occurs.
      * @throws ClassNotFoundException
+     *             If something horrible goes wrong.
      */
     @SuppressWarnings("unchecked")
     private static <T> void scatter (List<T> list, AtomicReference<T> ref,
@@ -241,5 +263,62 @@ public class JTrace
         
         ByteArrayInputStream bais = new ByteArrayInputStream(dstBuf);
         ref.set((T) new ObjectInputStream(bais).readObject());
+    }
+
+    /**
+     * Gathers from all ranks in the group from the given atomic reference and
+     * puts it all in the given list.
+     * 
+     * @param list
+     *            The destination list.
+     * @param ref
+     *            The source reference.
+     * @param root
+     *            The root rank.
+     * @throws IOException
+     *             If an I/O error occurs.
+     * @throws MPIException
+     *             If an MPI error occurs.
+     * @throws ClassNotFoundException
+     *             If something horrible goes wrong.
+     */
+    @SuppressWarnings("unchecked")
+    private static <T> void gather (List<T> list, AtomicReference<T> ref, int root) throws IOException, MPIException, ClassNotFoundException
+    {
+        byte [] srcBuf = null;
+        byte [] dstBuf = null;
+        int [] pos = null;
+        int [] srcLen = new int[1];
+        int [] dstLen = null;
+        
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        new ObjectOutputStream(baos).writeObject(ref.get());
+        srcBuf = baos.toByteArray();
+        srcLen[0] = srcBuf.length;
+        
+        if (rank == root) {
+            dstLen = new int[size];
+            pos = new int[size];
+        }
+        
+        COMM_WORLD.gather(srcLen, 1, INT, dstLen, 1, INT, root);
+        
+        if (rank == root) {
+            int sum = 0;
+            pos = new int[size];
+            for (int i = 0; i < size; i++) {
+                pos[i] = sum;
+                sum += dstLen[i];
+            }
+            dstBuf = new byte[sum];
+        }
+        
+        COMM_WORLD.gatherv(srcBuf, srcLen[0], BYTE, dstBuf, dstLen, pos, BYTE, root);
+        
+        if (rank == root)
+            for (int i = 0; i < size; i++) {
+                ByteArrayInputStream bais = new ByteArrayInputStream(dstBuf, pos[i], dstLen[i]);
+                list.add((T) new ObjectInputStream(bais).readObject());
+            }
     }
 }
