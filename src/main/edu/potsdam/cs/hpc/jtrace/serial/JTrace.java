@@ -1,8 +1,8 @@
 package edu.potsdam.cs.hpc.jtrace.serial;
 
 import edu.potsdam.cs.hpc.jtrace.common.RenderSettings;
+import edu.potsdam.cs.hpc.jtrace.common.RenderSettingsBuilder;
 import edu.potsdam.cs.hpc.jtrace.common.Renderer;
-import edu.potsdam.cs.hpc.jtrace.common.sdl.RenderSettingsBuilder;
 
 /**
  * JTrace serial version.

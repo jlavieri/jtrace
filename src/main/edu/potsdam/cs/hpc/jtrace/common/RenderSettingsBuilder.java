@@ -1,9 +1,14 @@
-package edu.potsdam.cs.hpc.jtrace.common.sdl;
+package edu.potsdam.cs.hpc.jtrace.common;
 
 import java.awt.Dimension;
 import java.io.File;
-
-import edu.potsdam.cs.hpc.jtrace.common.RenderSettings;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class RenderSettingsBuilder
 {
@@ -13,6 +18,19 @@ public class RenderSettingsBuilder
     
     public RenderSettingsBuilder(String [] args)
     {
+        if (args.length > 0 && Files.exists(Paths.get(args[0]))) {
+            Path srsPath = Paths.get(args[0]);
+            if (Files.exists(srsPath)) {
+                try (Scanner srsScanner = new Scanner(srsPath)) {
+                    List<String> argList = new ArrayList<>();
+                    while(srsScanner.hasNext())
+                        argList.add(srsScanner.next());
+                    args = argList.toArray(new String[0]);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         int width = 480;
         int height = 320;
         for (int i = 0; i < args.length; i++) {
@@ -50,9 +68,12 @@ public class RenderSettingsBuilder
 
     private static void printHelp()
     {
-        System.out.print("Usage: JTrace [OPTION]...\n"
+        System.out.print("Usage: JTrace [[OPTION_FILE] | [OPTION]...]\n"
              + "Raytraces a scene to an output image.\n"
-             + ""
+             + "\n"
+             + "You can specify an option file that may contain any options\n"
+             + "you could place on the command line.\n"
+             + "\n"
              + "Mandatory options:\n"
              + "  -i, --input  [FILE-PATH] The input file.\n"
              + "  -o, --output [FILE-PATH] The output file.\n"
