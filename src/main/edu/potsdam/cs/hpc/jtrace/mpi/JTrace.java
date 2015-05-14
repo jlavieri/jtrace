@@ -2,8 +2,10 @@ package edu.potsdam.cs.hpc.jtrace.mpi;
 
 import static mpi.MPI.*;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import mpi.MPIException;
@@ -19,7 +21,7 @@ import edu.potsdam.cs.hpc.jtrace.common.sdl.Scenes;
  */
 public class JTrace
 {
-    public static void main(String [] args) throws MPIException, IOException
+    public static void main(String [] args) throws MPIException, IOException, ClassNotFoundException
     {
         Init(args);
         
@@ -50,7 +52,12 @@ public class JTrace
         
         COMM_WORLD.bcast(sba, sba.length, BYTE, 0);
         
-        System.out.printf("rank %s sba: %s", rank, sba);
+        if (rank != 0) {
+            
+            ByteArrayInputStream bis = new ByteArrayInputStream(sba);
+            Scene scene = (Scene) new ObjectInputStream(bis).readObject();
+            System.out.printf("rank %s scene: %s", rank, scene);
+        }
         
         Finalize();
     }
