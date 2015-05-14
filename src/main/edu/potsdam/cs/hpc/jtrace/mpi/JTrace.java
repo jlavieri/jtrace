@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import mpi.MPIException;
+import edu.potsdam.cs.hpc.jtrace.common.RenderConfiguration;
 import edu.potsdam.cs.hpc.jtrace.common.RenderSettings;
 import edu.potsdam.cs.hpc.jtrace.common.RenderSettingsBuilder;
 import edu.potsdam.cs.hpc.jtrace.common.Scene;
@@ -34,36 +35,22 @@ public class JTrace
         size = COMM_WORLD.getSize();
         
         AtomicReference<Scene> scene = new AtomicReference<>();
+        RenderSettings renderSettings = null;
         
         if (rank == 0) {
-            RenderSettings renderSettings = new RenderSettingsBuilder(args).build();
+            renderSettings = new RenderSettingsBuilder(args).build();
             System.out.println("Tracing...");
             scene.set(Scenes.getSceneFromFile(renderSettings.inputFile));
         }
         
         broadcast(scene, 0);
         
-        AtomicReference<String> renderConfig = new AtomicReference<>();
+        AtomicReference<RenderConfiguration> renderConfig = new AtomicReference<>();
+        List<RenderConfiguration> configList = null;
+        if (rank == 0)
+            configList = getRenderConfigList(renderSettings);
         
-        List<String> list = new ArrayList<>();
-        list.add("_A_");
-        list.add("_B_");
-        list.add("_C_");
-        list.add("_D_");
-        list.add("_E_");
-        list.add("_F_");
-        list.add("_G_");
-        list.add("_H_");
-        list.add("_I_");
-        list.add("_J_");
-        list.add("_K_");
-        list.add("_L_");
-        list.add("_M_");
-        list.add("_N_");
-        list.add("_O_");
-        list.add("_P_");
-        
-        scatter(list, renderConfig, 0);
+        scatter(configList, renderConfig, 0);
         
         if (rank != 0) {
             System.out.println(renderConfig.get());
@@ -73,6 +60,94 @@ public class JTrace
         Finalize();
     }
     
+    private static List<RenderConfiguration> getRenderConfigList (
+            RenderSettings renderSettings)
+    {
+        List<RenderConfiguration> renderConfigs = new ArrayList<>(size);
+        int width = renderSettings.dimension.width;
+        int height = renderSettings.dimension.height;
+        int totalArea = width * height;
+        double regionLength = Math.sqrt((double)totalArea / (double)size);
+        int nCols = (int)Math.round((double)width / regionLength);
+        int nRows = (int)Math.round((double)height / regionLength);
+        int colWidth = width / nCols;
+        int rowHeight = height / nRows;
+        
+        // Standard region.
+        for (int i = 0; i < nCols - 1; i++)
+            for (int j = 0; j < nRows - 1; j++) {
+                int startCol = i * colWidth;
+                int startRow = j * rowHeight;
+                int stopCol = (i + 1) * colWidth - 1;
+                int stopRow = (j + 1) * rowHeight - 1;
+                renderConfigs.add(new RenderConfiguration(width, height,
+                                         startCol, startRow, stopCol, stopRow));
+            }
+        
+        if (width >= height) { // Landscape, square, degenerate
+            // Last column less bottom cell.
+            for (int j = 0; j < nRows - 1; j++) {
+                int startCol = (nCols - 1) * colWidth;
+                int startRow = j * rowHeight;
+                int stopCol = width - 1;
+                int stopRow = (j + 1) * rowHeight - 1;
+                renderConfigs.add(new RenderConfiguration(width, height,
+                                         startCol, startRow, stopCol, stopRow));
+            }
+            
+            // Last row less right-most cell.
+            int nColsInLastRow = size - (nRows - 1) * nCols;
+            int colWidthInLastRow = width / nColsInLastRow;
+            for (int i = 0; i < nColsInLastRow - 1; i++) {
+                int startCol = i * colWidthInLastRow;
+                int startRow = (nRows - 1) * rowHeight;
+                int stopCol = (i + 1) * colWidthInLastRow - 1;
+                int stopRow = height - 1;
+                renderConfigs.add(new RenderConfiguration(width, height,
+                                         startCol, startRow, stopCol, stopRow));
+            }
+            
+            // Last cell.
+            int startCol = (nColsInLastRow - 1) * colWidthInLastRow;
+            int startRow = (nRows - 1) * rowHeight;
+            int stopCol = width - 1;
+            int stopRow = height - 1;
+            renderConfigs.add(new RenderConfiguration(width, height,
+                                     startCol, startRow, stopCol, stopRow));
+        } else { // Portrait
+            // Last row less right-most cell.
+            for (int i = 0; i < nRows - 1; i++) {
+                int startCol = i * colWidth;
+                int startRow = (nRows - 1) * rowHeight;
+                int stopCol = (i + 1) * colWidth - 1;
+                int stopRow = height - 1;
+                renderConfigs.add(new RenderConfiguration(width, height,
+                                         startCol, startRow, stopCol, stopRow));
+            }
+            
+            // Last column less bottom cell.
+            int nRowsInLastCol = size - (nCols - 1) * nRows;
+            int rowHeightInLastCol = height / nRowsInLastCol;
+            for (int j = 0; j < nRowsInLastCol - 1; j++) {
+                int startCol = (nCols - 1) * colWidth;
+                int startRow = j * rowHeightInLastCol;
+                int stopCol = width - 1;
+                int stopRow = (j + 1) * rowHeightInLastCol - 1;
+                renderConfigs.add(new RenderConfiguration(width, height,
+                                         startCol, startRow, stopCol, stopRow));
+            }
+            
+            // Last cell.
+            int startCol = (nCols - 1) * colWidth;
+            int startRow = (nRowsInLastCol - 1) * rowHeightInLastCol;
+            int stopCol = width - 1;
+            int stopRow = height - 1;
+            renderConfigs.add(new RenderConfiguration(width, height,
+                                     startCol, startRow, stopCol, stopRow));
+        }
+        return renderConfigs;
+    }
+
     /**
      * Broadcasts a serializable object from a given root to the rest of the
      * group.
@@ -131,7 +206,7 @@ public class JTrace
     private static <T> void scatter (List<T> list, AtomicReference<T> ref,
             int root) throws IOException, MPIException, ClassNotFoundException
     {
-        if (list.size() != size)
+        if (rank == root && list.size() != size)
             throw new IllegalArgumentException(String.format(
                  "The number of items in the provided list is %s, but there are %s ranks in the group.", list.size(), size));
         
