@@ -23,7 +23,8 @@ public class JTrace
     {
         Init(args);
         
-        System.out.println(COMM_WORLD.getRank());
+        int rank = COMM_WORLD.getRank();
+        int [] sbaLength = new int[1];
         
         if (COMM_WORLD.getRank() == 0) {
             // Build render settings
@@ -37,22 +38,18 @@ public class JTrace
             out.writeObject(scene);
             byte [] sba = bos.toByteArray();
             System.out.println("sba len: " + sba.length);
-            // Broadcast scene to workers.
-            COMM_WORLD.bcast(sba.length, 1, INT, 0);
+            
+            sbaLength[0] = sba.length;
             /*Datatype sbaVec = Datatype.createVector(sba.length, 1,
                                                     BYTE.getSize(), BYTE);*/
             //COMM_WORLD.bcast(sba, 1, sbaVec, 0);
             
             //new Renderer(renderSettings).render();
-        
-        } else {
-            int[] sbaLength = new int[1];
-            COMM_WORLD.recv(sbaLength, 1, INT, 0, 10);
-            //byte [] sba = new byte[sbaLength[0]];
-            //Datatype sbaVec = Datatype.createVector(sba.length, 1, BYTE.getSize(), BYTE);
-            //COMM_WORLD.recv(sba, 1, sbaVec, 0, 11);
-            System.out.println(COMM_WORLD.getRank() + ": " + sbaLength[0]);
         }
+        
+        COMM_WORLD.bcast(sbaLength, 1, INT, 0);
+        
+        System.out.printf("rank %s sba len: %s", rank, sbaLength[0]);
         
         Finalize();
     }
