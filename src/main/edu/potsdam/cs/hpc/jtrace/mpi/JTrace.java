@@ -61,7 +61,7 @@ public class JTrace
         list.add("_M_");
         list.add("_N_");
         list.add("_O_");
-        
+        list.add("_P_");
         
         scatter(list, renderConfig, 0);
         
